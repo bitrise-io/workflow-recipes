@@ -1,0 +1,20 @@
+recipes:
+  - file: 'recipes/caching-npm-dependencies.md'
+    name: 'Caching npm Dependencies'
+    platforms: ['reactnative', 'cordova', 'ionic']
+  - file: 'recipes/upload-to-appstore.md'
+    name: 'Upload to AppStore Connect / TestFlight'
+    platforms: ['ios']
+  - file: 'recipes/send-qr-code-to-slack.md'
+    name: 'Send QR code to Slack'
+    platforms: []
+  - file: 'workflow-for-creating-a-gitflow-release-branch.md'
+    name: 'Workflow for creating a Gitflow release branch'
+    platforms: ['ios']
+  - file: 'recipes/running-workflows-in-parallel.md'
+    name: 'Running workflows in parallel'
+    platforms: []
+  - file: 'recipes/gradle-build-profiling.md'
+    name: 'Turn on Gradle build profiling'
+    platforms: ['android']
+
