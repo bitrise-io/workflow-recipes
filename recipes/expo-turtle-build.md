@@ -2,7 +2,7 @@
 
 ## Description
 
-Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aab files from your Expo project using Turtle CLI.
+Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aab files from your Expo project using [Turtle CLI](https://docs.expo.dev/classic/turtle-cli/).
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
 
 1. Upload the project's iOS Distribution Certificate and App Store Provisioning Profile on the Bitrise project's Workflow Editor / Code signing tab.
 2. Upload the project's Android Keystore on the Bitrise project's Workflow Editor / Code signing tab.
-3. Create a new Secret (`IOS_DEVELOPMENT_TEAM`) with the ID of the iOS Development Team, issued the project's Certificate and Provisioning Profile.
+3. Create a Secret (`IOS_DEVELOPMENT_TEAM`) with the ID of the iOS Development Team, issued the project's Certificate and Provisioning Profile.
 4. Store the Expo account, used for publishing the Expo app and fetching the app manifest, in `EXPO_USERNAME` and `EXPO_PASSWORD` secrets.
 5. Copy-paste `envs` to your workflow.
 6. Copy-paste `steps` to your workflow.

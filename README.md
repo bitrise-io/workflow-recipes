@@ -50,6 +50,10 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 * [(React Native) Run Tests](recipes/rn-tests.md)
 * [(Flutter) Run Tests](recipes/flutter-test.md)
 
+### Building
+
+* [(Expo) Build using Turtle CLI](recipes/expo-turtle-build.md)
+
 ### Linting
 
 * [(Android) Run Lint](recipes/android-lint.md)
