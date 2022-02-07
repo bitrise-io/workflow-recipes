@@ -1,4 +1,4 @@
-# Build an Expo project using Turtle CLI
+# (Expo) Build using Turtle CLI
 
 ## Description
 
@@ -6,8 +6,8 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
 
 ## Prerequisites
 
-1. Generate an iOS Distribution Certificate and App Store Provisioning Profile based on the [Generating iOS code signing files](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/generating-ios-code-signing-files.html) guide.
-2. Generate and Android Keystore by following the [Android code signing with Android Studio](https://devcenter.bitrise.io/en/code-signing/android-code-signing/android-code-signing-with-android-studio.html) guide.
+1. Generate an iOS Distribution Certificate and an App Store Provisioning Profile based on the [Generating iOS code signing files](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/generating-ios-code-signing-files.html) guide.
+2. Generate an Android Keystore by following the [Android code signing with Android Studio](https://devcenter.bitrise.io/en/code-signing/android-code-signing/android-code-signing-with-android-studio.html) guide.
 3. Make sure you can [Publish your Expo project](https://docs.expo.dev/classic/turtle-cli/#publish-your-project) locally.
 
 ## Instructions
@@ -16,7 +16,9 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
 2. Upload the project's Android Keystore on the Bitrise project's Workflow Editor / Code signing tab.
 3. Create a new Secret (`IOS_DEVELOPMENT_TEAM`) with the ID of the iOS Development Team, issued the project's Certificate and Provisioning Profile.
 4. Store the Expo account, used for publishing the Expo app and fetching the app manifest, in `EXPO_USERNAME` and `EXPO_PASSWORD` secrets.
-5. The built .ipa and .aab files are exposed via `BITRISE_IPA_PATH` and `BITRISE_AAB_PATH` env vars.
+5. Copy-paste `envs` to your workflow.
+6. Copy-paste `steps` to your workflow.
+    - The built .ipa and .aab files are exposed via `BITRISE_IPA_PATH` and `BITRISE_AAB_PATH` env vars.
 
 ## bitrise.yml
 
