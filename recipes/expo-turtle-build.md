@@ -23,16 +23,16 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
 ```yaml
   turtle_build:
     envs:
-    - KEYSTORE_PATH: "/tmp/keystore.jks"
-    - KEYSTORE_ALIAS: "$BITRISEIO_ANDROID_KEYSTORE_ALIAS"
-    - EXPO_ANDROID_KEYSTORE_PASSWORD: "$BITRISEIO_ANDROID_KEYSTORE_PASSWORD"
-    - EXPO_ANDROID_KEY_PASSWORD: "$BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD"
-    - PROFILE_PATH: "/tmp/profile.mobileprovision"
-    - CERTIFICATE_PATH: "/tmp/certificate.p12"
-    - EXPO_IOS_DIST_P12_PASSWORD: "$BITRISE_CERTIFICATE_PASSPHRASE"
-    - IOS_DEVELOPMENT_TEAM: "$IOS_DEVELOPMENT_TEAM"
-    - EXPO_USERNAME: "$EXPO_USERNAME"
-    - EXPO_PASSWORD: "$EXPO_PASSWORD"
+    - KEYSTORE_PATH: /tmp/keystore.jks
+    - KEYSTORE_ALIAS: $BITRISEIO_ANDROID_KEYSTORE_ALIAS
+    - EXPO_ANDROID_KEYSTORE_PASSWORD: $BITRISEIO_ANDROID_KEYSTORE_PASSWORD
+    - EXPO_ANDROID_KEY_PASSWORD: $BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD
+    - PROFILE_PATH: /tmp/profile.mobileprovision
+    - CERTIFICATE_PATH: /tmp/certificate.p12
+    - EXPO_IOS_DIST_P12_PASSWORD: $BITRISE_CERTIFICATE_PASSPHRASE
+    - IOS_DEVELOPMENT_TEAM: $IOS_DEVELOPMENT_TEAM
+    - EXPO_USERNAME: $EXPO_USERNAME
+    - EXPO_PASSWORD: $EXPO_PASSWORD
     steps:
     - script@1:
         title: Install dependencies
@@ -42,34 +42,36 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
             set -ex
 
             node --version
-            git --version
-            watchman --version
-            yarn --version
             fastlane --version
 
             npm install -g turtle-cli
             turtle --version
+
+            npm install -g expo-cli
+            expo --version
     - file-downloader@1:
         title: Download Android Keystore
         inputs:
-        - destination: "$KEYSTORE_PATH"
-        - source: "$BITRISEIO_ANDROID_KEYSTORE_URL"
+        - destination: $KEYSTORE_PATH
+        - source: $BITRISEIO_ANDROID_KEYSTORE_URL
     - file-downloader@1:
         title: Download iOS Certificate
         inputs:
-        - destination: "$CERTIFICATE_PATH"
-        - source: "$BITRISE_CERTIFICATE_URL"
+        - destination: $CERTIFICATE_PATH
+        - source: $BITRISE_CERTIFICATE_URL
     - file-downloader@1:
         title: Download iOS Provisioning Profile
         inputs:
-        - destination: "$PROFILE_PATH"
-        - source: "$BITRISE_PROVISION_URL"
-    - yarn@0:
+        - destination: $PROFILE_PATH
+        - source: $BITRISE_PROVISION_URL
+    - npm@1:
         title: Install project dependencies
+        inputs:
+        - command: install
     - set-java-version@1:
         title: Set Java version to Java 8
         inputs:
-        - set_java_version: '8'
+        - set_java_version: "8"
     - script@1:
         title: Run Expo publish
         inputs:
@@ -77,6 +79,7 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
             #!/usr/bin/env bash
             set -ex
 
+            expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD --non-interactive
             expo publish
     - script@1:
         title: Run Turtle build
@@ -92,6 +95,6 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
 
             turtle setup:ios
             ipa_path=$BITRISE_DEPLOY_DIR/expo-project.ipa
-            turtle build:ios --team-id "$IOS_DEVELOPMENT_TEAM" --dist-p12-path "$CERTIFICATE_PATH" --provisioning-profile-path "$PROFILE_PATH" -o $ipa_path
+            turtle build:ios --team-id $IOS_DEVELOPMENT_TEAM --dist-p12-path $CERTIFICATE_PATH --provisioning-profile-path $PROFILE_PATH -o $ipa_path
             envman add --key BITRISE_IPA_PATH --value $ipa_path
 ```
