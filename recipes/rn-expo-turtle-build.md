@@ -2,7 +2,7 @@
 
 ## Description
 
-Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aab files from your Expo project using [Turtle CLI](https://docs.expo.dev/classic/turtle-cli/).
+Publish an app to Expo's servers and build an iOS App Store `.ipa` and Android `.aab` files from your Expo project using [Turtle CLI](https://docs.expo.dev/classic/turtle-cli/).
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
 4. Store the Expo account, used for publishing the Expo app and fetching the app manifest, in `EXPO_USERNAME` and `EXPO_PASSWORD` secrets.
 5. Copy-paste `envs` from `bitrise.yml` below to your Workflow.
 6. Copy-paste `steps` from `bitrise.yml` below to your Workflow.
-    - The built .ipa and .aab files are exposed via `BITRISE_IPA_PATH` and `BITRISE_AAB_PATH` env vars.
+    - The built `.ipa` and `.aab` files are exposed via `BITRISE_IPA_PATH` and `BITRISE_AAB_PATH` env vars.
 
 ## bitrise.yml
 
