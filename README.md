@@ -52,7 +52,7 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 
 ### Building
 
-* [(Expo) Build using Turtle CLI](recipes/expo-turtle-build.md)
+* [(React Native) Expo: Build using Turtle CLI](recipes/expo-turtle-build.md)
 
 ### Linting
 
