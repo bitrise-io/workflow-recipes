@@ -32,6 +32,7 @@ Publish an app to Expo's servers and build an iOS App Store `.ipa` and Android `
     - PROFILE_PATH: /tmp/profile.mobileprovision
     - CERTIFICATE_PATH: /tmp/certificate.p12
     - EXPO_IOS_DIST_P12_PASSWORD: $BITRISE_CERTIFICATE_PASSPHRASE
+    # Define these in your secrets
     - IOS_DEVELOPMENT_TEAM: $IOS_DEVELOPMENT_TEAM
     - EXPO_USERNAME: $EXPO_USERNAME
     - EXPO_PASSWORD: $EXPO_PASSWORD
