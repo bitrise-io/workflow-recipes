@@ -16,7 +16,7 @@ Publish an app to Expo's servers and build an iOS App Store .ipa and Android .aa
 2. Upload the project's Android Keystore on the Bitrise project's Workflow Editor / Code signing tab.
 3. Create a Secret (`IOS_DEVELOPMENT_TEAM`) with the ID of the iOS Development Team, issued the project's Certificate and Provisioning Profile.
 4. Store the Expo account, used for publishing the Expo app and fetching the app manifest, in `EXPO_USERNAME` and `EXPO_PASSWORD` secrets.
-5. Copy-paste `envs` to your workflow.
+5. Copy-paste `envs` from `bitrise.yml` below to your Workflow.
 6. Copy-paste `steps` from `bitrise.yml` below to your Workflow.
     - The built .ipa and .aab files are exposed via `BITRISE_IPA_PATH` and `BITRISE_AAB_PATH` env vars.
 
