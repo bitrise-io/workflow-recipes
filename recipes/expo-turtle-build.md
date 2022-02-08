@@ -1,4 +1,4 @@
-# (Expo) Build using Turtle CLI
+# (React Native) Expo: Build using Turtle CLI
 
 ## Description
 
