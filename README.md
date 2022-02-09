@@ -26,6 +26,13 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 
 ![recipe_yml](https://user-images.githubusercontent.com/5689177/150491534-fdde2ba1-aa3a-4f6f-9895-6cd8200bd6f1.gif)
 
+## Please Share your Feedback
+
+**Workflow Recipes** is currently an MVP feature, and we’d love to hear your feedback on it. Share your thoughts on Workflow Recipes by filling out our feedback survey below (~3-5min).
+
+### [Fill out the Feedback Survey](https://docs.google.com/forms/d/e/1FAIpQLSfBQZCB02uOMsjp1kTLJ9Bv2tm0o39w4ez638m3y3kN5KQH_w/viewform?usp=sf_link)
+
+  
 
 ## The Recipes
 
