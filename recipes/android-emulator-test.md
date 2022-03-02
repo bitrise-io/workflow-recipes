@@ -1,4 +1,4 @@
-# (Android) Run UI / Instrumentation Tests on local Emulator
+# (Android) Run UI / instrumentation tests on local emulator
 
 ## Description
 

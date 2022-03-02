@@ -1,8 +1,8 @@
-# (Android) Run instrumentation tests on virtual devices
+# (Android) Run UI / instrumentation tests on virtual devices
 
 ## Description
 
-Run instrumentation (for example, Espresso) or robo/gameloop tests on virtual devices. [Our device testing solution](https://devcenter.bitrise.io/en/testing/device-testing-for-android.html).
+Run UI / instrumentation (for example, Espresso) or robo/gameloop tests on virtual devices. [Our device testing solution](https://devcenter.bitrise.io/en/testing/device-testing-for-android.html).
 ) is based on Firebase Test Lab. You can find the resulting logs, videos and screenshots on Bitrise.
 
 ## Instructions
