@@ -1,8 +1,8 @@
-# (Android) Run tests using the emulator
+# (Android) Run UI / Instrumentation Tests on local Emulator
 
 ## Description
 
-Run any kind of tests (unit, instrumentation) on a local emulator instance.
+Run UI / instrumentation tests on a local emulator instance.
 
 ## Instructions
 

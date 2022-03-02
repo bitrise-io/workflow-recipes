@@ -52,8 +52,8 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 * [(iOS) Run Tests on Simulator](recipes/ios-simulator-test.md)
 * [(iOS) Run Tests on a Physical Device](recipes/ios-device-testing.md)
 * [(Android) Run Unit Tests](recipes/android-unit-test.md)
-* [(Android) Run Instumentation Tests on Virtual Device](recipes/android-virtual-device-tests.md)
-* [(Android) Run Tests using the Emulator](recipes/android-emulator-test.md)
+* [(Android) Run UI / Instrumentation Tests on Virtual Device](recipes/android-virtual-device-tests.md)
+* [(Android) Run UI / Instrumentation Tests on local Emulator](recipes/android-emulator-test.md)
 * [(React Native) Run Tests](recipes/rn-tests.md)
 * [(Flutter) Run Tests](recipes/flutter-test.md)
 
