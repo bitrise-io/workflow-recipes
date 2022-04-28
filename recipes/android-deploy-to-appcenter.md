@@ -16,7 +16,7 @@ Build and distribute your app to testers via Visual Studio App Center.
     - **Build type**: Set this to `apk`.
     - **Variant**: Use `release`, `debug`, or one of your custom variants if you have any.
 2. If you build a release variant, add the [Android Sign](https://github.com/bitrise-steplib/steps-sign-apk) Step. You can skip this if you plan to deploy an unsigned debug variant.
-3. Add the [AppCenter iOS Deploy](https://www.bitrise.io/integrations/steps/appcenter-deploy-ios) step and set the following inputs:
+3. Add the [AppCenter Android Deploy](https://www.bitrise.io/integrations/steps/appcenter-deploy-android) step and set the following inputs:
     - **API Token**: `$APPCENTER_API_TOKEN`
     - **Owner name**: For example, `my-company`.
     - **App name**: For example, `my-app`. Use the [App Center CLI](https://github.com/Microsoft/appcenter-cli) to get the app name since it might not be the same as the one you can see on the Visual Studio App Center website.

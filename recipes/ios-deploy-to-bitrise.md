@@ -6,8 +6,7 @@ Build and distribute your app to testers via [Bitrise.io Ship](https://devcenter
 
 ## Prerequisites
 
-1. If you want to deploy a release build, don't forget to [set up code signing on Bitrise](https://devcenter.bitrise.io/en/code-signing/android-code-signing.html) to build and sign the APK with your release key.
-2. You have code signing set up. See [iOS Code Signing](https://devcenter.bitrise.io/en/code-signing/ios-code-signing.html) for more details.
+1. You have code signing set up. See [iOS Code Signing](https://devcenter.bitrise.io/en/code-signing/ios-code-signing.html) for more details.
 
 ## Instructions
 

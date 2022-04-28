@@ -1,4 +1,4 @@
-# (iOS) Example CI Worklow
+# (iOS) Example CI Workflow
 
 ## Description
 
