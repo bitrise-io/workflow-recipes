@@ -37,7 +37,7 @@ project_type: android
 meta:
   bitrise.io:
     stack: linux-docker-android-20.04
-    machine_type_id: elite
+    machine_type_id: standard
 
 pipelines:
   pipeline_unit_test:
