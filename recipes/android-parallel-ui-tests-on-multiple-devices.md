@@ -1,4 +1,4 @@
-# Run UI tests in parallel on multiple devices or shards
+# (Android) Run UI tests in parallel on multiple devices or shards
 
 ## Description
 

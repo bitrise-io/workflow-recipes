@@ -120,6 +120,6 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 
 ### Android
 
-* [Parallel testing of unit test shards by module](recipes/android-parallel-testing-unit-test-shards.md)
-* [Parallel UI tests on multiple devices](recipes/android-parallel-ui-tests-on-multiple-devices.md)
-* [Parallel unit and UI tests](recipes/android-parallel-unit-and-ui-tests.md)
+* [(Android) Parallel testing of unit test shards by module](recipes/android-parallel-testing-unit-test-shards.md)
+* [(Android) Parallel UI tests on multiple devices](recipes/android-parallel-ui-tests-on-multiple-devices.md)
+* [(Android) Parallel unit and UI tests](recipes/android-parallel-unit-and-ui-tests.md)

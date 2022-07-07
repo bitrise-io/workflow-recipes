@@ -1,4 +1,4 @@
-# Run unit and UI tests in parallel
+# (Android) Run unit and UI tests in parallel
 
 ## Description
 
