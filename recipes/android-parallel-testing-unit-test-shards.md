@@ -27,6 +27,8 @@ To test this configuration in a new Bitrise example project, do the following:
 1. Go to the **bitrise.yml** tab, and replace the existing yaml contents with the contents of the example `bitrise.yml` below.
 1. Click the **Start/Schedule a Build** button, and select the `pipeline_unit_test` option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
 
+## bitrise.yml
+
 ```yaml
 format_version: "11"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
