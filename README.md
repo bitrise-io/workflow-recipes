@@ -115,3 +115,11 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 
 ### Other
 * [Create Gitflow release branch](recipes/workflow-create-gitflow-release-branch.md)
+
+## Example Pipelines
+
+### iOS
+
+* [(iOS) Run tests in parallel on multiple simulators](./recipes/ios-run-tests-in-parallel-on-multiple-simulators.md)
+* [(iOS) Run test groups in parallel](./recipes/ios-run-test-groups-in-parallel.md)
+* [(iOS) Merging test results and deploying to the Test Reports add-on](./recipes/ios-merging-test-results-and-deploying-to-the-test-reports-add-on.md)
