@@ -92,7 +92,7 @@ workflows:
 
   _pull_apks:
     steps:
-    - git::https://github.com/bitrise-steplib/bitrise-step-artifact-pull.git@main:
+    - artifact-pull:
         inputs:
         - artifact_sources: build_for_ui_testing.build_for_ui_testing.*
         - export_map: |-
