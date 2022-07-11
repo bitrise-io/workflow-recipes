@@ -26,7 +26,7 @@ This Stage runs the `deploy_test_results` Workflow:
 1. Wait for the project scanner to complete.
 1. Select any of the offered Distribution methods (for example development, it does not really matter as now we are focusing on testing).
 1. Confirm the offered stack, skip choosing the app icon and the webhook registration and kick off the first build.
-1. Open the new Bitrise project’s Workflow Editor. 
+1. Open the new Bitrise project’s Workflow Editor.
 1. Go to the **bitrise.yml** tab and replace the existing `bitrise.yml` with the contents of the example bitrise.yml below.
 1. Click the **Start/Schedule a Build** button, and select the `run_tests_groups` option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
 1. Open the Pipeline’s build page.
@@ -66,7 +66,7 @@ stages:
     workflows:
     - run_ui_tests: {}
     - run_unit_tests: {}
-    
+
   deploy_test_results:
     workflows:
     - deploy_test_results: {}
@@ -99,10 +99,10 @@ workflows:
         - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UnitTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
     - deploy-to-bitrise-io: {}
-        
+
   deploy_test_results:
     steps:
-    - git::https://github.com/bitrise-steplib/bitrise-step-artifact-pull.git@main:
+    - artifact-pull:
         inputs:
         - artifact_sources: run_tests_groups.*
     - script:
@@ -134,10 +134,10 @@ workflows:
               fi
             done
     - deploy-to-bitrise-io: {}
-        
+
   _pull_test_bundle:
     steps:
-    - git::https://github.com/bitrise-steplib/bitrise-step-artifact-pull.git@main:
+    - artifact-pull:
         inputs:
         - export_map: 'BITRISE_TEST_BUNDLE_ZIP_PATH: .*\.zip'
         - artifact_sources: build_tests.build_tests.*

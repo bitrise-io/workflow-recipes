@@ -23,10 +23,10 @@ The example Pipeline config showcases how to run different test groups in parall
 1. Wait for the project scanner to complete.
 1. Select any of the offered Distribution methods (for example development, it does not really matter as now we are focusing on testing).
 1. Confirm the offered stack, skip choosing the app icon and the webhook registration and kick off the first build.
-1. Open the new Bitrise project’s Workflow Editor. 
+1. Open the new Bitrise project’s Workflow Editor.
 1. Go to the **bitrise.yml** tab and replace the existing `bitrise.yml` with the contents of the example bitrise.yml below.
 1. Click the **Start/Schedule a Build** button, and select the `run_tests_groups` option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
-    
+
 
 ## bitrise.yml
 
@@ -87,10 +87,10 @@ workflows:
         inputs:
         - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UnitTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
-        
+
   _pull_test_bundle:
     steps:
-    - git::https://github.com/bitrise-steplib/bitrise-step-artifact-pull.git@main:
+    - artifact-pull:
         inputs:
         - export_map: 'BITRISE_TEST_BUNDLE_ZIP_PATH: .*\.zip'
         - artifact_sources: build_tests.build_tests.*
