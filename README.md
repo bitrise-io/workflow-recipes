@@ -118,6 +118,12 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 
 ## Example Pipelines
 
+### iOS
+
+* [(iOS) Run tests in parallel on multiple simulators](./recipes/ios-run-tests-in-parallel-on-multiple-simulators.md)
+* [(iOS) Run test groups in parallel](./recipes/ios-run-test-groups-in-parallel.md)
+* [(iOS) Merging test results and deploying to the Test Reports add-on](./recipes/ios-merging-test-results-and-deploying-to-the-test-reports-add-on.md)
+
 ### Android
 
 * [(Android) Parallel testing of unit test shards by module](recipes/android-parallel-testing-unit-test-shards.md)
