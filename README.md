@@ -1,6 +1,6 @@
 # Workflow Recipes
 
-Workflow Recipes provide ready-made solutions for common Workflow tasks. Here you will find a range of different Recipes along with examples of entire Workflows. 
+Workflow Recipes provide ready-made solutions for common Workflow tasks. Here you will find a range of different Recipes along with examples of entire Workflows.
 
 ## Using Recipes
 
@@ -21,7 +21,7 @@ All you need to do here is follow the step-by-step instructions in the Recipe.
 You can also simply copy-paste the snippet to your `bitrise.yml` file directly. Don't forget to:
 
 1. Check the formatting of the copy-pasted YAML
-2. Read the instructions as they may contain some important information on configuration 
+2. Read the instructions as they may contain some important information on configuration
 3. Check and customize the input variables
 
 ![recipe_yml](https://user-images.githubusercontent.com/5689177/150491534-fdde2ba1-aa3a-4f6f-9895-6cd8200bd6f1.gif)
@@ -123,3 +123,9 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 * [(iOS) Run tests in parallel on multiple simulators](./recipes/ios-run-tests-in-parallel-on-multiple-simulators.md)
 * [(iOS) Run test groups in parallel](./recipes/ios-run-test-groups-in-parallel.md)
 * [(iOS) Merging test results and deploying to the Test Reports add-on](./recipes/ios-merging-test-results-and-deploying-to-the-test-reports-add-on.md)
+
+### Android
+
+* [(Android) Parallel testing of unit test shards by module](recipes/android-parallel-testing-unit-test-shards.md)
+* [(Android) Parallel UI tests on multiple devices](recipes/android-parallel-ui-tests-on-multiple-devices.md)
+* [(Android) Parallel unit and UI tests](recipes/android-parallel-unit-and-ui-tests.md)
