@@ -66,8 +66,8 @@ workflows:
 
   _test:
     steps:
-    - git-clone: { }
-    - android-unit-test:
+    - git-clone@6: { }
+    - android-unit-test@1:
         inputs:
         - module: $MODULE
         - variant: $VARIANT
