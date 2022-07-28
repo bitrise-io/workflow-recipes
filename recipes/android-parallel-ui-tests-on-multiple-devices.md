@@ -59,12 +59,12 @@ stages:
 workflows:
   build_for_ui_testing:
     steps:
-    - git-clone: { }
-    - android-build-for-ui-testing:
+    - git-clone@6: { }
+    - android-build-for-ui-testing@0:
         inputs:
         - module: app
         - variant: debug
-    - deploy-to-bitrise-io: { }
+    - deploy-to-bitrise-io@2: { }
 
   ui_test_on_phone:
     envs:
@@ -92,7 +92,7 @@ workflows:
 
   _pull_apks:
     steps:
-    - artifact-pull:
+    - artifact-pull@1:
         inputs:
         - artifact_sources: build_for_ui_testing.build_for_ui_testing.*
         - export_map: |-
@@ -101,9 +101,9 @@ workflows:
 
   _run_tests:
     steps:
-    - avd-manager:
+    - avd-manager@1:
         inputs:
         - profile: $EMULATOR_PROFILE
-    - wait-for-android-emulator: { }
-    - android-instrumented-test: { }
+    - wait-for-android-emulator@1: { }
+    - android-instrumented-test@0: { }
 ```

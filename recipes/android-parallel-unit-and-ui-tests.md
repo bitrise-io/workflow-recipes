@@ -53,20 +53,20 @@ stages:
 workflows:
   unit_tests:
     steps:
-    - git-clone: { }
-    - android-unit-test:
+    - git-clone@6: { }
+    - android-unit-test@1:
         inputs:
         - module: app
         - variant: debug
 
   ui_tests:
     steps:
-    - git-clone: { }
-    - android-build-for-ui-testing:
+    - git-clone@6: { }
+    - android-build-for-ui-testing@0:
         inputs:
         - module: app
         - variant: debug
-    - avd-manager: { }
-    - wait-for-android-emulator: { }
-    - android-instrumented-test: { }
+    - avd-manager@1: { }
+    - wait-for-android-emulator@1: { }
+    - android-instrumented-test@0: { }
 ```

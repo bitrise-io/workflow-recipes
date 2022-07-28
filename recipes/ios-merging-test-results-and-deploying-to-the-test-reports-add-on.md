@@ -74,38 +74,38 @@ stages:
 workflows:
   build_tests:
     steps:
-    - git-clone: {}
-    - xcode-build-for-test:
+    - git-clone@6: {}
+    - xcode-build-for-test@2:
         inputs:
         - destination: generic/platform=iOS Simulator
-    - deploy-to-bitrise-io: {}
+    - deploy-to-bitrise-io@2: {}
 
   run_ui_tests:
     before_run:
     - _pull_test_bundle
     steps:
-    - xcode-test-without-building:
+    - xcode-test-without-building@0:
         inputs:
         - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UITests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
-    - deploy-to-bitrise-io: {}
+    - deploy-to-bitrise-io@2: {}
 
   run_unit_tests:
     before_run:
     - _pull_test_bundle
     steps:
-    - xcode-test-without-building:
+    - xcode-test-without-building@0:
         inputs:
         - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UnitTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
-    - deploy-to-bitrise-io: {}
+    - deploy-to-bitrise-io@2: {}
 
   deploy_test_results:
     steps:
-    - artifact-pull:
+    - artifact-pull@1:
         inputs:
         - artifact_sources: run_tests_groups.*
-    - script:
+    - script@1:
         inputs:
         - content: |
             #!/usr/bin/env bash
@@ -133,15 +133,15 @@ workflows:
                 ((i++))
               fi
             done
-    - deploy-to-bitrise-io: {}
+    - deploy-to-bitrise-io@2: {}
 
   _pull_test_bundle:
     steps:
-    - artifact-pull:
+    - artifact-pull@1:
         inputs:
         - export_map: 'BITRISE_TEST_BUNDLE_ZIP_PATH: .*\.zip'
         - artifact_sources: build_tests.build_tests.*
-    - script:
+    - script@1:
         inputs:
         - content: |-
             #!/usr/bin/env bash
