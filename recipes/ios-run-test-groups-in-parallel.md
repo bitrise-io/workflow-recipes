@@ -68,7 +68,9 @@ workflows:
     - xcode-build-for-test@2:
         inputs:
         - destination: generic/platform=iOS Simulator
-    - deploy-to-bitrise-io@2: {}
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
 
   run_ui_tests:
     before_run:
@@ -90,17 +92,7 @@ workflows:
 
   _pull_test_bundle:
     steps:
-    - artifact-pull@1:
+    - artifact-pull@2:
         inputs:
-        - export_map: 'BITRISE_TEST_BUNDLE_ZIP_PATH: .*\.zip'
         - artifact_sources: build_tests.build_tests
-    - script@1:
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            set -e
-            set -o pipefail
-
-            unzip "$BITRISE_TEST_BUNDLE_ZIP_PATH" -d "./test_bundle"
-            envman add --key "BITRISE_TEST_BUNDLE_PATH" --value "./test_bundle"
 ```
