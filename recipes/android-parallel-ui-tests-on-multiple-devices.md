@@ -94,7 +94,7 @@ workflows:
     steps:
     - artifact-pull@1:
         inputs:
-        - artifact_sources: build_for_ui_testing.build_for_ui_testing.*
+        - artifact_sources: build_for_ui_testing.build_for_ui_testing
         - export_map: |-
             BITRISE_APK_PATH: .*app-debug.apk
             BITRISE_TEST_APK_PATH: .*app-debug-androidTest.apk

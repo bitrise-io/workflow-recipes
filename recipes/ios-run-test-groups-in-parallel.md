@@ -93,7 +93,7 @@ workflows:
     - artifact-pull@1:
         inputs:
         - export_map: 'BITRISE_TEST_BUNDLE_ZIP_PATH: .*\.zip'
-        - artifact_sources: build_tests.build_tests.*
+        - artifact_sources: build_tests.build_tests
     - script@1:
         inputs:
         - content: |-
