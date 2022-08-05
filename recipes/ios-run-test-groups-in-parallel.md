@@ -92,7 +92,7 @@ workflows:
 
   _pull_test_bundle:
     steps:
-    - artifact-pull@2:
+    - pull-intermediate-files@1:
         inputs:
         - artifact_sources: build_tests.build_tests
 ```
