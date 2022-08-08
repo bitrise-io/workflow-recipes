@@ -11,8 +11,8 @@ This example uses the [sample-swift-project-with-parallel-ui-test](https://githu
 `run_tests_groups` Pipeline is extended with a new Stage: `deploy_test_results`.
 
 This Stage runs the `deploy_test_results` Workflow:
-1. `artifact-pull` Step downloads all the previous stage (`run_tests_groups`) generated zipped test results.
-1. `script` Step unzips each test result into a new test run directory within the Test Report add-on deploy dir and creates the related `test-info.json` file.
+1. `pull-intermediate-files` Step downloads the previous stage (`run_tests_groups`) generated test results.
+1. `script` Step moves each test result into a new test run directory within the Test Report add-on deploy dir and creates the related `test-info.json` file.
 1. `deploy-to-bitrise-io` Step deploys the merged test results.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-merging-test-results-and-deploying-to-the-test-reports-add-on.png)
@@ -78,7 +78,9 @@ workflows:
     - xcode-build-for-test@2:
         inputs:
         - destination: generic/platform=iOS Simulator
-    - deploy-to-bitrise-io@2: {}
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
 
   run_ui_tests:
     before_run:
@@ -88,7 +90,9 @@ workflows:
         inputs:
         - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UITests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
-    - deploy-to-bitrise-io@2: {}
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - pipeline_intermediate_files: "$BITRISE_XCRESULT_PATH:BITRISE_UI_TEST_XCRESULT_PATH"
 
   run_unit_tests:
     before_run:
@@ -98,56 +102,42 @@ workflows:
         inputs:
         - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UnitTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
-    - deploy-to-bitrise-io@2: {}
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - pipeline_intermediate_files: "$BITRISE_XCRESULT_PATH:BITRISE_UNIT_TEST_XCRESULT_PATH"
 
   deploy_test_results:
     steps:
-    - artifact-pull@1:
+    - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: run_tests_groups.*
+        - artifact_sources: run_tests_groups\..*
     - script@1:
         inputs:
         - content: |
             #!/usr/bin/env bash
             set -eo pipefail
 
-            echo "Pulled Test Results: $BITRISE_ARTIFACT_PATHS"
+            for item in "${BITRISE_UI_TEST_XCRESULT_PATH}" "${BITRISE_UNIT_TEST_XCRESULT_PATH}";
+              do
+                echo "Exporting ${item}"
 
-            i=1
-            IFS='|'
-            read -ra FILES <<< "$BITRISE_ARTIFACT_PATHS"
-            for f in ${FILES[@]}
-            do
-              if [ "${f: -4}" = ".zip" ]; then
-                testing_addon_test_dir="${BITRISE_TEST_RESULT_DIR}/test_${i}"
+                test_name=$(basename "$item" .xcresult)
+                echo "Test name: $test_name"
 
-                echo "Unzipping $f"
+                test_dir="${BITRISE_TEST_RESULT_DIR}/${test_name}"
+                mkdir -p "${test_dir}"
+                echo "Moving test result to: ${test_dir}"
+                cp -R "${item}" "${test_dir}/$(basename ${item})"
 
-                dir="$(dirname $f)"
-                ( cd $dir ; unzip "$f" -d $testing_addon_test_dir &> /dev/null )
-
-                test_info="${testing_addon_test_dir}/test-info.json"
-                echo "Generating test info at: $test_info"
-                echo "{ \"test-name\": \"Tests ${i}\" }" > "$test_info"
-
-                ((i++))
-              fi
-            done
+                test_info="${test_dir}/test-info.json"
+                echo "Creating Test info at: ${test_info}"
+                echo "{ \"test-name\": \"${test_name}\" }" > "$test_info"
+              done
     - deploy-to-bitrise-io@2: {}
 
   _pull_test_bundle:
     steps:
-    - artifact-pull@1:
+    - pull-intermediate-files@1:
         inputs:
-        - export_map: 'BITRISE_TEST_BUNDLE_ZIP_PATH: .*\.zip'
-        - artifact_sources: build_tests.build_tests.*
-    - script@1:
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            set -e
-            set -o pipefail
-
-            unzip "$BITRISE_TEST_BUNDLE_ZIP_PATH" -d "./test_bundle"
-            envman add --key "BITRISE_TEST_BUNDLE_PATH" --value "./test_bundle"
+        - artifact_sources: build_tests.build_tests
 ```

@@ -70,7 +70,9 @@ workflows:
     - xcode-build-for-test@2:
         inputs:
         - destination: generic/platform=iOS Simulator
-    - deploy-to-bitrise-io@2: {}
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
 
   run_tests_iPhone:
     before_run:
@@ -78,7 +80,7 @@ workflows:
     steps:
     - xcode-test-without-building@0:
         inputs:
-        - xctestrun: "$BITRISE_XCTESTRUN_FILE_PATH"
+        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_FullTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
 
   run_tests_iPad:
@@ -87,7 +89,7 @@ workflows:
     steps:
     - xcode-test-without-building@0:
         inputs:
-        - xctestrun: "$BITRISE_XCTESTRUN_FILE_PATH"
+        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_FullTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPad (9th generation)
 
   run_tests_iPod:
@@ -96,22 +98,12 @@ workflows:
     steps:
     - xcode-test-without-building@0:
         inputs:
-        - xctestrun: "$BITRISE_XCTESTRUN_FILE_PATH"
+        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_FullTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
         - destination: platform=iOS Simulator,name=iPod touch (7th generation)
 
   _pull_test_bundle:
     steps:
-    - artifact-pull@1:
+    - pull-intermediate-files@1:
         inputs:
-        - export_map: 'BITRISE_TEST_BUNDLE_ZIP_PATH: .*\.zip'
-        - artifact_sources: build_tests.build_tests.*
-    - script@1:
-        inputs:
-        - content: |-
-            #!/usr/bin/env bash
-            set -e
-            set -o pipefail
-
-            unzip "$BITRISE_TEST_BUNDLE_ZIP_PATH" -d "./test_bundle"
-            envman add --key "BITRISE_XCTESTRUN_FILE_PATH" --value "./test_bundle/BullsEye_FullTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
+        - artifact_sources: build_tests.build_tests
 ```
