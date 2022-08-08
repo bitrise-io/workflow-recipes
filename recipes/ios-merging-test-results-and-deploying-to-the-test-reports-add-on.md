@@ -11,8 +11,8 @@ This example uses the [sample-swift-project-with-parallel-ui-test](https://githu
 `run_tests_groups` Pipeline is extended with a new Stage: `deploy_test_results`.
 
 This Stage runs the `deploy_test_results` Workflow:
-1. `artifact-pull` Step downloads all the previous stage (`run_tests_groups`) generated zipped test results.
-1. `script` Step unzips each test result into a new test run directory within the Test Report add-on deploy dir and creates the related `test-info.json` file.
+1. `pull-intermediate-files` Step downloads the previous stage (`run_tests_groups`) generated test results.
+1. `script` Step moves each test result into a new test run directory within the Test Report add-on deploy dir and creates the related `test-info.json` file.
 1. `deploy-to-bitrise-io` Step deploys the merged test results.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-merging-test-results-and-deploying-to-the-test-reports-add-on.png)
