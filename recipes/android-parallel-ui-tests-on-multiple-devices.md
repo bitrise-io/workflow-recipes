@@ -64,7 +64,11 @@ workflows:
         inputs:
         - module: app
         - variant: debug
-    - deploy-to-bitrise-io@2: { }
+    - deploy-to-bitrise-io@2:
+        inputs:
+        - pipeline_intermediate_files: |-
+            $BITRISE_APK_PATH:BITRISE_APK_PATH
+            $BITRISE_TEST_APK_PATH:BITRISE_TEST_APK_PATH
 
   ui_test_on_phone:
     envs:
@@ -92,12 +96,9 @@ workflows:
 
   _pull_apks:
     steps:
-    - artifact-pull@1:
+    - pull-intermediate-files@1:
         inputs:
         - artifact_sources: build_for_ui_testing.build_for_ui_testing
-        - export_map: |-
-            BITRISE_APK_PATH: .*app-debug.apk
-            BITRISE_TEST_APK_PATH: .*app-debug-androidTest.apk
 
   _run_tests:
     steps:
