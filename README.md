@@ -91,6 +91,17 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 * [(Android) Turn on Gradle build profiling](recipes/gradle-build-profiling.md)
 * [(React Native) Cache Dependencies (node_modules)](recipes/rn-cache-dependencies.md)
 
+### 🆕 Key-based caching (Beta)
+
+* [(iOS) Cache Swift Package Manager (SPM) dependencies](recipes/ios-key-cache-spm.md)
+* [(iOS) Cache CocoaPods dependencies](recipes/ios-key-cache-cocoapods.md)
+* [(iOS) Cache Carthage dependencies](recipes/ios-key-cache-carthage.md)
+* [(Android) Cache Gradle dependencies](recipes/android-key-cache.md)
+* [(Android) Cache Gradle build tasks](recipes/android-key-cache-build-tasks.md)
+* [(Flutter) Cache Dart dependencies](recipes/flutter-key-cache.md)
+* [(React Native) Cache NPM dependencies](recipes/rn-key-cache-dependencies.md)
+* [Advanced key-based caching recipes](recipes/key-cache-advanced.md)
+
 ### Running Steps & Workflows
 
 * [Run a Step Conditionally](recipes/run-step-conditionally.md)
