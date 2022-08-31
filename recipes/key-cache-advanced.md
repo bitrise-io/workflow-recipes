@@ -1,12 +1,12 @@
 # Advanced key-based cache recipes (Beta)
 
-These workflow recipes are based on the **Save cache** and **Restore cache** steps (currently in Beta).
+These workflow recipes are based on the **Save cache** and **Restore cache** Steps (currently in Beta).
 
 For recipes about the most popular platforms and dependency managers, check out the **Key-based caching** section in the [README](../README.md).
 
 ## Key templates
 
-The **Save cache** and **Restore cache** steps use a string key to use when uploading and a cache archive. In order to always download the most relevant cache archive for each build, the cache key input can contain template elements. The steps evaluate the key template at runtime and the final key value can change based on the build environment or files in the repo.
+The **Save cache** and **Restore cache** Steps use a string key when uploading and downloading a cache archive. To always download the most relevant cache archive for each build, the **Cache key** input can contain template elements. The Steps evaluate the key template at runtime and the final key value can change based on the build environment or files in the repo.
 
 The following variables are supported in the **Cache key** input:
 
@@ -82,9 +82,9 @@ steps:
 
 ## Cache warm-up for pull requests
 
-Caching works the best when the cached content is up to date and contains useful data for dependency managers and build systems. It's a good idea to run a workflow periodically that builds the project from the latest code on the main branch and saves the result in the cache. This way other builds triggered by pull requests can restore an up-to-date cache.
+Caching works best when the cached content is up to date and contains useful data for dependency managers and build systems. It's a good idea to run a Workflow periodically that builds the project from the latest code on the main branch and saves the result in the cache. This way, other builds triggered by pull requests can restore an up-to-date cache.
 
-By including a checksum in the cache key, the **Save cache** step will save multiple unique cache archives when the project files change (instead of overriding the previous cache). This way PRs not targeting the latest state of the main branch can still download a relevant cache archive.
+By including a checksum in the **Cache key** input, the **Save cache** Step will save multiple unique cache archives when the project files change (instead of overriding the previous cache). This way PRs not targeting the latest state of the main branch can still download a relevant cache archive.
 
 ```yaml
 workflows:

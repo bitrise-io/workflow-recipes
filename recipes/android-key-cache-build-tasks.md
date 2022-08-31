@@ -2,17 +2,17 @@
 
 ## Description
 
-Cache Gradle tasks with the new key-based caching steps, **Save Cache** and **Restore Cache**.
+Cache Gradle tasks with the new key-based caching Steps, **Save Cache** and **Restore Cache**.
 
 ## Prerequisites
 
-Make sure to read how to [cache Gradle dependencies](android-key-cache.md) and set up the workflow according to the guide. Caching build tasks is an opt-in feature that builds on caching Gradle dependencies.
+Make sure to read how to [cache Gradle dependencies](android-key-cache.md) and set up the Workflow according to the guide. Caching build tasks is an opt-in feature that builds on caching Gradle dependencies.
 
 ## Instructions
 
-[Gradle build cache](https://docs.gradle.org/current/userguide/build_cache.html) is a feature that persists the task outputs in the shared Gradle cache folder. Caching this folder in CI builds means that Gradle can reuse the task outputs from previous builds and can skip running the tasks when the inputs are unchanged.
+[Gradle build cache](https://docs.gradle.org/current/userguide/build_cache.html) is a feature that enables the storage of the task outputs in the shared Gradle cache folder. Caching this folder in CI builds means that Gradle can reuse the task outputs from previous builds and can skip running the tasks when the inputs are unchanged.
 
-This is an opt-in feature, there are two ways to enable build cache in a Gradle project:
+This is an opt-in feature. There are two ways to enable the build cache in a Gradle project:
 
 - add `org.gradle.caching = true` to the `gradle.properties` file in the project
 - pass the `--build-cache` CLI flag to each Gradle execution
