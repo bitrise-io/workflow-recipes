@@ -98,7 +98,7 @@ workflows:
         # Rest of the PR validation workflow
     
     cache-warm-up:
-        description: This workflow should be triggered periodically or by a push event on the main branch
+        description: This Workflow should either be run on a scheduled basis or triggered by a push event on the main branch.
         steps:
         # Build steps
         - save-cache@1:
