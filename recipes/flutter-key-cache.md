@@ -30,7 +30,7 @@ Cache the contents of the [Dart pub system cache](https://dart.dev/tools/pub/glo
     - key: |-
         dart-cache-{{ checksum "pubspec.lock" }}
         dart-cache-
-- cocoapods-install@2: {}
+- flutter-build@0: {}
 - save-cache@1:
     inputs:
     - key: dart-cache-{{ checksum "pubspec.lock" }}
