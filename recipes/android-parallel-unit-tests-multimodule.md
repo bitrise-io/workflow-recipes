@@ -6,7 +6,7 @@ Running unit tests in several modules in parallel utilizing Pipelines.
 
 This Pipeline contains two Stages:
  - `stage_clone` — where the repository get cloned, zipped and deployed (via `intermediate files`) to Bitrise, to be accessible from each module. 
- - `stage_unit_tests` — that executes four Workflows in parallel (`unit_tests_module_a`, `unit_tests_module_b`, `unit_tests_module_c` and `unit_tests_module_d`). 
+ - `stage_unit_tests` — that executes three Workflows in parallel (`unit_tests_module_app_debug`, `unit_tests_feature_example1_debug` and `unit_tests_module_feature_example2_debug`). 
 
 In each of these four workflows, two utility Workflows will be run sequentially: 
 1. `_pull_intermediate_files`: This utility Workflow pull the intermediate files deployed in the `stage_clone` and unzips the result (which is the cloned repository).
@@ -54,10 +54,9 @@ stages:
     - clone_and_deploy_to_bitrise: {}
   stage_unit_tests:
     workflows:
-    - unit_tests_module_a: {}
-    - unit_tests_module_b: {}
-    - unit_tests_module_c: {}
-    - unit_tests_module_d: {}
+    - unit_tests_module_app_debug: {}
+    - unit_tests_feature_example1_debug: {}
+    - unit_tests_module_feature_example2_debug: {}
 
 workflows:
   clone_and_deploy_to_bitrise:
@@ -66,7 +65,7 @@ workflows:
     - cache-pull@2.7: {}
     - install-missing-android-tools@3.0:
         inputs:
-        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+        - gradlew_path: "./gradlew"
     - create-zip@0:
         inputs:
         - destination: "/bitrise/source"
@@ -75,38 +74,30 @@ workflows:
         inputs:
         - pipeline_intermediate_files: "/bitrise/source.zip:BITRISE_SOURCE_DIR_ZIP"
 
-  unit_tests_module_a:
+  unit_tests_module_app_debug:
     envs:
-    - MODULE: module-a
+    - MODULE: app
     - VARIANT: debug
     before_run:
     - _pull_intermediate_files
     after_run:
     - _unit_tests
-  unit_tests_module_b:
+  unit_tests_feature_example1_debug:
     envs:
-    - MODULE: module-b
+    - MODULE: feature:example1
     - VARIANT: debug
     before_run:
     - _pull_intermediate_files
     after_run:
     - _unit_tests
-  unit_tests_module_c:
+  unit_tests_module_feature_example2_debug:
     envs:
-    - MODULE: module-c
+    - MODULE: feature:example2
     - VARIANT: debug
     before_run:
     - _pull_intermediate_files
     after_run:
-    - _unit_tests
-  unit_tests_module_d:
-    envs:
-    - MODULE: module-d
-    - VARIANT: debug
-    before_run:
-    - _pull_intermediate_files
-    after_run:
-    - _unit_tests
+    - _unit_tests 
 
   _pull_intermediate_files:
     steps:
