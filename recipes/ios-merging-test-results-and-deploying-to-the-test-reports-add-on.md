@@ -53,26 +53,26 @@ meta:
 pipelines:
   run_tests_groups:
     stages:
-    - build_tests: {}
+    - build_tests_stage: {}
     - run_tests_groups: {}
-    - deploy_test_results: {}
+    - deploy_test_results_stage: {}
 
 stages:
-  build_tests:
+  build_tests_stage:
     workflows:
-    - build_tests: {}
+    - build_tests_workflow: {}
 
   run_tests_groups:
     workflows:
     - run_ui_tests: {}
     - run_unit_tests: {}
 
-  deploy_test_results:
+  deploy_test_results_stage:
     workflows:
-    - deploy_test_results: {}
+    - deploy_test_results_workflow: {}
 
 workflows:
-  build_tests:
+  build_tests_workflow:
     steps:
     - git-clone@6: {}
     - xcode-build-for-test@2:
@@ -106,7 +106,7 @@ workflows:
         inputs:
         - pipeline_intermediate_files: "$BITRISE_XCRESULT_PATH:BITRISE_UNIT_TEST_XCRESULT_PATH"
 
-  deploy_test_results:
+  deploy_test_results_workflow:
     steps:
     - pull-intermediate-files@1:
         inputs:
@@ -139,5 +139,5 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_tests.build_tests
+        - artifact_sources: build_tests_stage.build_tests_workflow
 ```

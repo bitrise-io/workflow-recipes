@@ -49,13 +49,13 @@ meta:
 pipelines:
   run_tests_on_simulators:
     stages:
-    - build_tests: {}
+    - build_tests_stage: {}
     - run_tests_on_simulators: {}
 
 stages:
-  build_tests:
+  build_tests_stage:
     workflows:
-    - build_tests: {}
+    - build_tests_workflow: {}
 
   run_tests_on_simulators:
     workflows:
@@ -64,7 +64,7 @@ stages:
     - run_tests_iPod: {}
 
 workflows:
-  build_tests:
+  build_tests_workflow:
     steps:
     - git-clone@6: {}
     - xcode-build-for-test@2:
@@ -105,5 +105,5 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_tests.build_tests
+        - artifact_sources: build_tests_stage.build_tests_workflow
 ```

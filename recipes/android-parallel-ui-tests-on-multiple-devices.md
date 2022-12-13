@@ -6,7 +6,7 @@ Running the UI or instrumented tests of a single module in parallel Workflows ut
 
 The Pipeline contains two Stages that are run serially:
 
-1. `build_for_ui_testing`: This Stage executes a Workflow — also named `build_for_ui_testing` — that runs the `android-build-for-ui-testing` Step to build APKs for use in testing, and runs the `deploy-to-bitrise-io` Step to save those APKs for use in the later Stages. Performing this Stage separately from the actual testing allows for each test Stage to use these pre-built APKs rather than having to rebuild them for each test Stage.
+1. `build`: This Stage executes a Workflow — named `build_for_ui_testing` — that runs the `android-build-for-ui-testing` Step to build APKs for use in testing, and runs the `deploy-to-bitrise-io` Step to save those APKs for use in the later Stages. Performing this Stage separately from the actual testing allows for each test Stage to use these pre-built APKs rather than having to rebuild them for each test Stage.
 1. `run_ui_tests_on_devices`: This Stage executes three UI test Workflows in parallel — `ui_test_on_phone`, `ui_test_on_tablet`, `ui_test_on_foldable` — which use the `android-instrumented-test` Step to run the UI tests on the APKs built in the previous Worflow on each specific device type.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./android-parallel-ui-tests-on-multiple-devices.png)
@@ -42,11 +42,11 @@ meta:
 pipelines:
   ui_test_on_multiple_devices:
     stages:
-    - build_for_ui_testing: { }
+    - build: { }
     - run_ui_tests_on_devices: { }
 
 stages:
-  build_for_ui_testing:
+  build:
     workflows:
     - build_for_ui_testing: { }
 
@@ -98,7 +98,7 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_for_ui_testing.build_for_ui_testing
+        - artifact_sources: build.build_for_ui_testing
 
   _run_tests:
     steps:

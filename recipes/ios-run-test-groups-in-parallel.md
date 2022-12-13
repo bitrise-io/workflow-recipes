@@ -9,7 +9,7 @@ This example uses the [sample-swift-project-with-parallel-ui-test](https://githu
 The example Pipeline config showcases how to run different test groups in parallel.
 
 `run_tests_groups` pipeline runs two Stages sequentially:
-1. `build_tests` Stage that runs the `build_tests` Workflow. This Workflow git clones the sample project and runs the `xcode-build-for-test` Step to build the target and associated tests. The built test bundle is transferred to the next Stage (`run_tests_groups`) via the `deploy-to-bitrise-io` Step.
+1. `build_tests_stage` Stage that runs the `build_tests_workflow` Workflow. This Workflow git clones the sample project and runs the `xcode-build-for-test` Step to build the target and associated tests. The built test bundle is transferred to the next Stage (`run_tests_groups`) via the `deploy-to-bitrise-io` Step.
 1. `run_tests_groups` Stage runs two Workflows in parallel: `run_ui_tests` and `run_unit_tests`. Both of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the previous Stage built test bundle. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-run-test-groups-in-parallel.png)
@@ -48,13 +48,13 @@ meta:
 pipelines:
   run_tests_groups:
     stages:
-    - build_tests: {}
+    - build_tests_stage: {}
     - run_tests_groups: {}
 
 stages:
-  build_tests:
+  build_tests_stage:
     workflows:
-    - build_tests: {}
+    - build_tests_workflow: {}
 
   run_tests_groups:
     workflows:
@@ -62,7 +62,7 @@ stages:
     - run_unit_tests: {}
 
 workflows:
-  build_tests:
+  build_tests_workflow:
     steps:
     - git-clone@6: {}
     - xcode-build-for-test@2:
@@ -94,5 +94,5 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_tests.build_tests
+        - artifact_sources: build_tests_stage.build_tests_workflow
 ```
