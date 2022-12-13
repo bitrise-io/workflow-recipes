@@ -80,6 +80,7 @@ workflows:
         - destination: generic/platform=iOS Simulator
     - deploy-to-bitrise-io@2:
         inputs:
+        - deploy_path: "$BITRISE_XCODE_RAW_RESULT_TEXT_PATH"
         - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
 
   run_ui_tests:
@@ -92,6 +93,7 @@ workflows:
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
     - deploy-to-bitrise-io@2:
         inputs:
+        - deploy_path: ""
         - pipeline_intermediate_files: "$BITRISE_XCRESULT_PATH:BITRISE_UI_TEST_XCRESULT_PATH"
 
   run_unit_tests:
@@ -104,6 +106,7 @@ workflows:
         - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
     - deploy-to-bitrise-io@2:
         inputs:
+        - deploy_path: ""
         - pipeline_intermediate_files: "$BITRISE_XCRESULT_PATH:BITRISE_UNIT_TEST_XCRESULT_PATH"
 
   deploy_test_results:

@@ -72,6 +72,7 @@ workflows:
         - destination: generic/platform=iOS Simulator
     - deploy-to-bitrise-io@2:
         inputs:
+        - deploy_path: "$BITRISE_XCODE_RAW_RESULT_TEXT_PATH"
         - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
 
   run_tests_iPhone:
