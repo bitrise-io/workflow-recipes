@@ -8,9 +8,9 @@ This example uses the [sample-swift-project-with-parallel-ui-test](https://githu
 
 The example Pipeline config showcases how to run different test groups in parallel.
 
-`run_tests` pipeline runs two Stages sequentially:
-1. `build_tests_stage` Stage that runs the `build_tests_workflow` Workflow. This Workflow git clones the sample project and runs the `xcode-build-for-test` Step to build the target and associated tests. The built test bundle is transferred to the next Stage (`run_tests_groups`) via the `deploy-to-bitrise-io` Step.
-1. `run_tests_groups` Stage runs two Workflows in parallel: `run_ui_tests` and `run_unit_tests`. Both of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the previous Stage built test bundle. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
+`build_and_run_tests` pipeline runs two Stages sequentially:
+1. `build_tests` Stage that runs the `xcode_build_for_test` Workflow. This Workflow git clones the sample project and runs the `xcode-build-for-test` Step to build the target and associated tests. The built test bundle is transferred to the next Stage (`run_tests`) via the `deploy-to-bitrise-io` Step.
+1. `run_tests` Stage runs two Workflows in parallel: `run_ui_tests` and `run_unit_tests`. Both of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the previous Stage built test bundle. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-run-test-groups-in-parallel.png)
 
@@ -25,7 +25,7 @@ The example Pipeline config showcases how to run different test groups in parall
 1. Confirm the offered stack, skip choosing the app icon and the webhook registration and kick off the first build.
 1. Open the new Bitrise project’s Workflow Editor.
 1. Go to the **bitrise.yml** tab and replace the existing `bitrise.yml` with the contents of the example bitrise.yml below.
-1. Click the **Start/Schedule a Build** button, and select the `run_tests` Pipeline option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
+1. Click the **Start/Schedule a Build** button, and select the `build_and_run_tests` Pipeline option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
 
 
 ## bitrise.yml
@@ -46,23 +46,23 @@ meta:
     stack: osx-xcode-13.2.x
 
 pipelines:
-  run_tests:
+  build_and_run_tests:
     stages:
-    - build_tests_stage: {}
-    - run_tests_groups: {}
+    - build_tests: {}
+    - run_tests: {}
 
 stages:
-  build_tests_stage:
+  build_tests:
     workflows:
-    - build_tests_workflow: {}
+    - xcode_build_for_test: {}
 
-  run_tests_groups:
+  run_tests:
     workflows:
     - run_ui_tests: {}
     - run_unit_tests: {}
 
 workflows:
-  build_tests_workflow:
+  xcode_build_for_test:
     steps:
     - git-clone@6: {}
     - xcode-build-for-test@2:
@@ -94,5 +94,5 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_tests_stage.build_tests_workflow
+        - artifact_sources: build_tests.xcode_build_for_test
 ```
