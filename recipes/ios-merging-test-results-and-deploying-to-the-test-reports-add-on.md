@@ -8,10 +8,10 @@ This example uses the [sample-swift-project-with-parallel-ui-test](https://githu
 
 `run_ui_tests` and `run_unit_tests` Workflows are extended with a `deploy-to-bitrise-io` Step to make the generated test results available for the next Stage.
 
-`run_tests_groups` Pipeline is extended with a new Stage: `deploy_test_results`.
+`build_and_run_tests` Pipeline is extended with a new Stage: `deploy_test_results`.
 
 This Stage runs the `deploy_test_results` Workflow:
-1. `pull-intermediate-files` Step downloads the previous stage (`run_tests_groups`) generated test results.
+1. `pull-intermediate-files` Step downloads the previous stage (`run_tests`) generated test results.
 1. `script` Step moves each test result into a new test run directory within the Test Report add-on deploy dir and creates the related `test-info.json` file.
 1. `deploy-to-bitrise-io` Step deploys the merged test results.
 
@@ -28,7 +28,7 @@ This Stage runs the `deploy_test_results` Workflow:
 1. Confirm the offered stack, skip choosing the app icon and the webhook registration and kick off the first build.
 1. Open the new Bitrise project’s Workflow Editor.
 1. Go to the **bitrise.yml** tab and replace the existing `bitrise.yml` with the contents of the example bitrise.yml below.
-1. Click the **Start/Schedule a Build** button, and select the `run_tests_groups` option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
+1. Click the **Start/Schedule a Build** button, and select the `build_and_run_tests` Pipeline option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
 1. Open the Pipeline’s build page.
 1. Select the `deploy_test_results` build.
 1. Click on **Details & Add-ons** on the build details page and select the Test Reports add-on to view the merged test reports.
@@ -51,28 +51,28 @@ meta:
     stack: osx-xcode-13.2.x
 
 pipelines:
-  run_tests_groups:
+  build_and_run_tests:
     stages:
     - build_tests: {}
-    - run_tests_groups: {}
+    - run_tests: {}
     - deploy_test_results: {}
 
 stages:
   build_tests:
     workflows:
-    - build_tests: {}
+    - xcode_build_for_test: {}
 
-  run_tests_groups:
+  run_tests:
     workflows:
     - run_ui_tests: {}
     - run_unit_tests: {}
 
   deploy_test_results:
     workflows:
-    - deploy_test_results: {}
+    - merge_and_deploy_test_results: {}
 
 workflows:
-  build_tests:
+  xcode_build_for_test:
     steps:
     - git-clone@6: {}
     - xcode-build-for-test@2:
@@ -106,11 +106,11 @@ workflows:
         inputs:
         - pipeline_intermediate_files: "$BITRISE_XCRESULT_PATH:BITRISE_UNIT_TEST_XCRESULT_PATH"
 
-  deploy_test_results:
+  merge_and_deploy_test_results:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: run_tests_groups\..*
+        - artifact_sources: run_tests\..*
     - script@1:
         inputs:
         - content: |
@@ -139,5 +139,5 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_tests.build_tests
+        - artifact_sources: build_tests.xcode_build_for_test
 ```
