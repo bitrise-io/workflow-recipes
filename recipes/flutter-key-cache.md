@@ -19,7 +19,6 @@ Cache the contents of the [Dart pub system cache](https://dart.dev/tools/pub/glo
     - Set the **Paths to cache** input to the following (or adjust it if your project has a different folder structure):
     ```
     ~/.pub-cache
-    .dart_tool
     ```
 
 ## bitrise.yml
