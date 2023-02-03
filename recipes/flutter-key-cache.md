@@ -36,5 +36,4 @@ Cache the contents of the [Dart pub system cache](https://dart.dev/tools/pub/glo
     - key: dart-cache-{{ checksum "pubspec.lock" }}
     - paths: |-
         ~/.pub-cache
-        .dart_tool
 ```
