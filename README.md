@@ -83,15 +83,7 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 * [Slack - Send the Build QR Code](recipes/slack-send-qr-code.md)
 * [GitHub Pull Request - Send the Build QR Code](recipes/github-pull-request-build-qr-code.md)
 
-### Optimisation & Caching
-
-* [Make Caching Efficient for Pull Request Builds](recipes/pull-request-build-caching.md)
-* [Shallow Clone the git Repo](recipes/shallow-clone-repo.md)
-* [(iOS) Cache CocoaPods Dependencies](recipes/ios-cache-cocoapods.md)
-* [(Android) Turn on Gradle build profiling](recipes/gradle-build-profiling.md)
-* [(React Native) Cache Dependencies (node_modules)](recipes/rn-cache-dependencies.md)
-
-### 🆕 Key-based caching (Beta)
+### 🆕 Caching
 
 * [(iOS) Cache Swift Package Manager (SPM) dependencies](recipes/ios-key-cache-spm.md)
 * [(iOS) Cache CocoaPods dependencies](recipes/ios-key-cache-cocoapods.md)
@@ -101,6 +93,12 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 * [(Flutter) Cache Dart dependencies](recipes/flutter-key-cache.md)
 * [(React Native) Cache NPM dependencies](recipes/rn-key-cache-dependencies.md)
 * [Advanced key-based caching recipes](recipes/key-cache-advanced.md)
+
+### Optimisation
+
+* [Make Caching Efficient for Pull Request Builds](recipes/pull-request-build-caching.md)
+* [Shallow Clone the git Repo](recipes/shallow-clone-repo.md)
+* [(Android) Turn on Gradle build profiling](recipes/gradle-build-profiling.md)
 
 ### Running Steps & Workflows
 

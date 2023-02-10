@@ -4,7 +4,7 @@
 
 Example Workflow for nightly builds for iOS apps. The Workflow contains:
 
-1. Installing [Cocoapods](/recipes/ios-cache-cocoapods.md) and [Carthage](/recipes/ios-install-carthage-dependencies.md) dependecies.
+1. Installing [Cocoapods](/recipes/ios-key-cache-cocoapods.md) and [Carthage](/recipes/ios-install-carthage-dependencies.md) dependecies.
 2. [Setting the version and build number](https://www.bitrise.io/integrations/steps/set-ios-version). By default, the app will get the build number (`$BITRISE_BUILD_NUMBER`) as the version code.
 3. [Building a release build and uploading to TestFlight](/recipes/ios-deploy-to-appstore.md).
 4. [Building a test app and uploading to bitrise.io](/recipes/ios-deploy-to-bitrise.md).
@@ -24,8 +24,8 @@ workflows:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@6: {}
-    - cache-pull@2: {}
+    - git-clone@7: {}
+    - restore-cocoapods-cache@1: {}
     - cocoapods-install@2: {}
     - carthage@3:
         inputs:
@@ -60,7 +60,7 @@ workflows:
         - channel: "#build-notifications"
         - thumb_url: "$BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL"
         - webhook_url: "$SLACK_WEBHOOK"
-    - cache-push@2: {}
+    - save-cocoapods-cache@1: {}
 app:
   envs:
   - opts:

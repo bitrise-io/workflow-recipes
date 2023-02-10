@@ -4,7 +4,7 @@
 
 Example Workflow for commits on the main branch of an iOS app. The Workflow contains:
 
-1. Installing [Cocoapods](/recipes/ios-cache-cocoapods.md) and [Carthage](/recipes/ios-install-carthage-dependencies.md) dependecies.
+1. Installing [Cocoapods](/recipes/ios-key-cache-cocoapods.md) and [Carthage](/recipes/ios-install-carthage-dependencies.md) dependecies.
 2. [Running all unit and UI tests in simulator](/recipes/ios-simulator-test.md)
 3. [Building a test app and uploading to bitrise.io](/recipes/ios-deploy-to-bitrise.md)
 4. [Sending a Slack notification with the build status](/recipes/slack-send-build-status.md)
@@ -22,8 +22,8 @@ workflows:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@6: {}
-    - cache-pull@2: {}
+    - git-clone@7: {}
+    - restore-cocoapods-cache@1: {}
     - cocoapods-install@2: {}
     - carthage@3:
         inputs:
@@ -46,7 +46,7 @@ workflows:
         inputs:
         - channel: "#build-notifications"
         - webhook_url: "$SLACK_WEBHOOK"
-    - cache-push@2: {}
+    - save-cococoapods-cache@1: {}
 app:
   envs:
   - opts:

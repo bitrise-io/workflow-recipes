@@ -1,6 +1,6 @@
-# Advanced key-based cache recipes (Beta)
+# Advanced key-based cache recipes
 
-These workflow recipes are based on the **Save cache** and **Restore cache** Steps (currently in Beta).
+These workflow recipes are based on the **Save cache** and **Restore cache** Steps.
 
 For recipes about the most popular platforms and dependency managers, check out the **Key-based caching** section in the [README](../README.md).
 

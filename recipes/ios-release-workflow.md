@@ -4,7 +4,7 @@
 
 Example Workflow for uploading a release draft of an iOS app to the App Store. The Worklow contains:
 
-1. Installing [Cocoapods](/recipes/ios-cache-cocoapods.md) and [Carthage](/recipes/ios-install-carthage-dependencies.md) dependecies.
+1. Installing [Cocoapods](/recipes/ios-key-cache-cocoapods.md) and [Carthage](/recipes/ios-install-carthage-dependencies.md) dependecies.
 2. [Setting the version number](https://www.bitrise.io/integrations/steps/set-ios-version) based on [env vars passed to build](https://devcenter.bitrise.io/en/builds/environment-variables.html#setting-a-custom-env-var-when-starting-a-build) (`$VERSION_NUMBER`).
 3. [Building a release build and uploading to App Store](/recipes/ios-deploy-to-appstore.md).
 
@@ -20,8 +20,8 @@ workflows:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@6: {}
-    - cocoapods-install@2: {}
+    - git-clone@7: {}
+    - restore-cocoapods-cache@1: {}
     - carthage@3:
         inputs:
         - carthage_options: "--use-xcframeworks --platform iOS"
