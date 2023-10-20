@@ -39,6 +39,8 @@ func RecipeMDToJSON(recipeMD string) (RecipeJSON, error) {
 				recipe.Instructions = strings.TrimSpace(strings.Join(lines[1:], "\n"))
 			case "bitrise.yml":
 				recipe.BitriseYML = strings.TrimSpace(strings.Join(lines[1:], "\n"))
+			case "Recipe Tags":
+				recipe.Tags = strings.Split(strings.ReplaceAll(strings.TrimSpace(strings.Join(lines[1:], "\n")), " ", ""), ",")
 			}
 		}
 	}

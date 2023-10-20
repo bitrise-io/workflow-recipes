@@ -123,4 +123,4 @@ The keys listed in the step input are processed in priority order. If there is a
 
 ## Recipe Tags
 
-no-bitrise-yml, no-single-apply
+no-auto-apply, no-single-bitrise-yml

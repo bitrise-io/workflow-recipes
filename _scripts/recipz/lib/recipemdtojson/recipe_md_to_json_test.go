@@ -222,3 +222,50 @@ code
 		require.Equal(t, RecipeJSON{}, recipeJSON)
 	}
 }
+
+func TestRecipeMDToJSON_tags(t *testing.T) {
+	t.Log("Recipe Tags listed")
+	{
+		recipeTemplate := `# [Name of the recipe]
+
+## Description
+
+[Description]
+
+## Prerequisites
+
+1. ...
+
+## Instructions
+
+1. ...
+    - ...
+    - ...
+    - ...
+
+## bitrise.yml
+
+code
+
+## Recipe Tags
+
+no-auto-apply, no-single-bitrise-yml
+
+`
+
+		recipeJSON, err := RecipeMDToJSON(recipeTemplate)
+		require.NoError(t, err)
+		require.Equal(t, RecipeJSON{
+			Markdown:      recipeTemplate,
+			Title:         "[Name of the recipe]",
+			Description:   "[Description]",
+			Prerequisites: "1. ...",
+			Instructions: `1. ...
+    - ...
+    - ...
+    - ...`,
+			BitriseYML: "code",
+			Tags:       []string{"no-auto-apply", "no-single-bitrise-yml"},
+		}, recipeJSON)
+	}
+}
