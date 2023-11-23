@@ -15,14 +15,8 @@ Cache the contents of the `node_modules` folder with the new key-based caching S
 
 The NPM specific cache steps use optimal cache key and path configurations maintained by Bitrise. If you want full control over what should be cached then please check out the generic [Restore Cache](https://github.com/bitrise-steplib/bitrise-step-restore-cache) and [Save Cache](https://github.com/bitrise-steplib/bitrise-step-save-cache) Steps.
 
-For example, to setup the cache key value based on your need you simply need to enter this to the **Restore Cache** and **Save Cache** step **Cache keys** input:
-```
-npm-cache-{{ checksum "package-lock.json" }}
-npm-cache-
-```
-The first key will result in a unique string based on the exact dependencies defined in `package-lock.json` (make sure to commit the file!). If there is no cache to restore with that key, the Step will move on to the second key and will restore a cache with a key that starts with `npm-cache-`. This will result in a cache that was saved for slightly different dependencies, but it's still better than not restoring any cache.
-
-And if you need to fine tune what gets saved then you need to set the **Paths to cache** input to the `node_modules` folder.
+You can always check out what key and path settings the NPM cache step uses:
+[Github code snippet](https://github.com/bitrise-steplib/bitrise-step-save-npm-cache/blob/main/step/step.go#L13-L25)
 
 ## bitrise.yml
 

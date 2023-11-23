@@ -17,19 +17,8 @@ If you want to cache not only the dependencies but build tasks as well, check ou
 
 The Gradle specific cache steps use optimal cache key and path configurations maintained by Bitrise. If you want full control over what should be cached then please check out the generic [Restore Cache](https://bitrise.io/integrations/steps/restore-cache) and [Save Cache](https://bitrise.io/integrations/steps/save-cache) Steps.
 
-For example, to setup the cache key value based on your need you simply need to enter this to the **Restore Cache** and **Save Cache** step **Cache keys** input:
-```
-gradle-cache-{{ checksum "**/*.gradle*" "**/gradle-wrapper.properties" "gradle.properties" }}
-gradle-cache-
-```
-The first key will result in a unique string based on the exact dependencies defined in your Gradle config. If there is no cache to restore with that key, the Step will move on to the second key and will restore a cache with a key that starts with `gradle-cache-`. This will result in a cache that was saved for slightly different dependencies, but it's still better than not restoring any cache.
-
-And if you need to fine tune what gets saved then you need to enter this to the **Save Cache** step **Paths to cache** input:
-```
-~/.gradle/caches
-~/.gradle/wrapper
-.gradle/configuration-cache
-```
+You can always check out what key and path settings the Gradle cache step uses:
+[Github code snippet](https://github.com/bitrise-steplib/bitrise-step-save-gradle-cache/blob/main/step/step.go#L14-L53)
 
 ## bitrise.yml
 
