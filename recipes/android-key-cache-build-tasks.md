@@ -2,7 +2,7 @@
 
 ## Description
 
-Cache Gradle tasks with the new key-based caching Steps, **Save Cache** and **Restore Cache**.
+Cache Gradle tasks with the new key-based caching Steps, **Save Gradle Cache** and **Restore Gradle Cache**.
 
 ## Prerequisites
 
@@ -23,21 +23,11 @@ If you choose the second option and use Bitrise Android Steps, there is a Step i
 ## bitrise.yml
 
 ```yaml
-- restore-cache@1:
-    inputs:
-    - key: |
-        gradle-cache-{{ checksum "**/*.gradle*" "**/gradle-wrapper.properties" "gradle.properties" }}
-        gradle-cache-
+- restore-gradle-cache@1: {}
 - android-build@1:
     inputs:
     - variant: debug
     - build_type: apk
     - arguments: --build-cache
-- save-cache@1:
-    inputs:
-    - key: gradle-cache-{{ checksum "**/*.gradle*" "**/gradle-wrapper.properties" "gradle.properties" }}
-    - paths: |-
-        ~/.gradle/caches
-        ~/.gradle/wrapper
-        .gradle/configuration-cache
+- save-gradle-cache@1: {}
 ```

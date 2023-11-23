@@ -1,7 +1,7 @@
 # (Android) Run Lint
 
 ## Description
-Runs Lint on your Android project.
+Runs Lint on your Android project and generates a report with the results.
 
 ## Instructions
 

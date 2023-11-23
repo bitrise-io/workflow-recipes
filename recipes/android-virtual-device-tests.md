@@ -2,12 +2,11 @@
 
 ## Description
 
-Run UI / instrumentation (for example, Espresso) or robo/gameloop tests on virtual devices. [Our device testing solution](https://devcenter.bitrise.io/en/testing/device-testing-for-android.html).
-) is based on Firebase Test Lab. You can find the resulting logs, videos and screenshots on Bitrise.
+Run UI / instrumentation (for example, Espresso) or robo/gameloop tests on virtual devices. [Our device testing solution](https://devcenter.bitrise.io/en/testing/device-testing-for-android.html) is based on Firebase Test Lab. You can find the resulting logs, videos and screenshots on Bitrise.
 
 ## Instructions
 
-1. Add an [Android Build for UI Testing](https://github.com/bitrise-steplib/bitrise-step-android-build-for-ui-testing) Step. Set the input variables:
+1. Add an [Android Build for UI Testing](https://bitrise.io/integrations/steps/android-build-for-ui-testing) Step. Set the input variables:
     - **Project Location**: Use the default `$BITRISE_SOURCE_DIR` or `$PROJECT_LOCATION`. You can set a specific path but the automatically exposed Environment Variables are usually the best option.
     - **Variant**: Use the `$VARIANT` Enviromment Variable, or specify a variant manually.
     - **Module**: Specify one or leave it blank to run tests in all of the modules.

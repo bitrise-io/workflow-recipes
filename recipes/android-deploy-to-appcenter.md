@@ -12,10 +12,10 @@ Build and distribute your app to testers via Visual Studio App Center.
 
 ## Instructions
 
-1. Add the [Android Build](https://github.com/bitrise-steplib/bitrise-step-android-build) Step and set the following inputs:
+1. Add the [Android Build](https://bitrise.io/integrations/steps/android-build) Step and set the following inputs:
     - **Build type**: Set this to `apk`.
     - **Variant**: Use `release`, `debug`, or one of your custom variants if you have any.
-2. If you build a release variant, add the [Android Sign](https://github.com/bitrise-steplib/steps-sign-apk) Step. You can skip this if you plan to deploy an unsigned debug variant.
+2. If you build a release variant, add the [Android Sign](https://bitrise.io/integrations/steps/sign-apk) Step. You can skip this if you plan to deploy an unsigned debug variant.
 3. Add the [AppCenter Android Deploy](https://www.bitrise.io/integrations/steps/appcenter-deploy-android) step and set the following inputs:
     - **API Token**: `$APPCENTER_API_TOKEN`
     - **Owner name**: For example, `my-company`.
@@ -25,15 +25,15 @@ Build and distribute your app to testers via Visual Studio App Center.
 ## bitrise.yml
 
 ```yaml
-    - android-build@1:
-        inputs:
-        - variant: release
-        - build_type: apk
-    - sign-apk@1: {}
-    - appcenter-deploy-android@2:
-        inputs:
-        - owner_name: my-company
-        - app_name: my-app
-        - app_path: "$BITRISE_APK_PATH"
-        - api_token: "$APPCENTER_API_TOKEN"
+- android-build@1:
+    inputs:
+    - variant: release
+    - build_type: apk
+- sign-apk@1: {}
+- appcenter-deploy-android@2:
+    inputs:
+    - owner_name: my-company
+    - app_name: my-app
+    - app_path: "$BITRISE_APK_PATH"
+    - api_token: "$APPCENTER_API_TOKEN"
 ```

@@ -9,7 +9,7 @@ No matter what Android or Gradle Step you use in your Bitrise Workflow, there is
 
 To sum up the procedure:
 1. Add the Android Unit Test Step to your Workflow.
-2. Add a Script Step to compress the reprt files and copy the ZIP file to the deploy directory. 
+2. Add a Script Step to compress the reports and copy the ZIP file to the deploy directory. 
 3. Trigger a manual build and download and open the HTML report.
 4. Check the various aspects of the build in the report. 
 
