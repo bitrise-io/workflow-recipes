@@ -13,7 +13,7 @@ Speed up cloning the repository by specifying a clone depth. Keep in mind that i
 ## bitrise.yml
 
 ```yaml
-- git-clone@6:
+- git-clone@8:
     inputs:
     - clone_depth: 1
 ```

@@ -9,7 +9,7 @@ Make sure that Bitrise has write access to your repository. You need to [manuall
 
 ## bitrise.yml
 
-```
+```yaml
 # Run the workflow with $VERSION env set up to, for examepl, '2.4.3'
 create-release-branch:
   steps:
