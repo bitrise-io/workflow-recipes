@@ -10,7 +10,7 @@ Build and distribute your app to testers via [Bitrise.io Ship](https://devcenter
 
 ## Instructions
 
-1. Add the [Xcode Archive & Export for iOS](https://github.com/bitrise-steplib/steps-xcode-archive) step. Set the input variables:
+1. Add the [Xcode Archive & Export for iOS](https://bitrise.io/integrations/steps/xcode-archive) step. Set the input variables:
     - **Project path**: by default, `$BITRISE_PROJECT_PATH`.
     - **Scheme**: by default, `$BITRISE_SCHEME`.
     - **Distribution method**: `development`, `ad-hoc` or `enterprise`.
@@ -19,11 +19,11 @@ Build and distribute your app to testers via [Bitrise.io Ship](https://devcenter
 ## bitrise.yml
 
 ```yaml
-   - xcode-archive@4:
-        inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
-        - automatic_code_signing: apple-id
-        - distribution_method: development
-   - deploy-to-bitrise-io@2: {}
+- xcode-archive@5:
+    inputs:
+    - project_path: "$BITRISE_PROJECT_PATH"
+    - scheme: "$BITRISE_SCHEME"
+    - automatic_code_signing: apple-id
+    - distribution_method: development
+- deploy-to-bitrise-io@2: {}
 ```

@@ -15,14 +15,14 @@ Archiving the app and uploading to App Store Connect to either release it to App
     - **Info.plist file path**: for example, `MyApp/Info.plist`.
     - **Build Number**: for example, `42`.
     - **Version Number**: for example, `1.1`.
-2. Add the [Xcode Archive & Export for iOS](https://github.com/bitrise-steplib/steps-xcode-archive) step. Set the input variables:
+2. Add the [Xcode Archive & Export for iOS](https://bitrise.io/integrations/steps/xcode-archive) step. Set the input variables:
     - **Project path**: by default `$BITRISE_PROJECT_PATH`. Normally, you don't have to change this. 
     - **Scheme**: by default `$BITRISE_SCHEME`. This Environment Variable stores the scheme that you set when adding the app. The scheme always must be a shared scheme.
     - **Distribution method**: it must be set to `app-store`. 
-3. Add the [Deploy to App Store Connect - Application Loader (formerly iTunes Connect)](https://github.com/bitrise-steplib/steps-deploy-to-itunesconnect-application-loader) Step. Set the input variables:
+3. Add the [Deploy to App Store Connect - Application Loader (formerly iTunes Connect)](https://bitrise.io/integrations/steps/deploy-to-itunesconnect-application-loader) Step. Set the input variables:
     - **Bitrise Apple Developer Connection**: for example, `api_key`
 
-Alternatively you can use the [Deploy to App Store Connect with Deliver (formerly iTunes Connect)](https://github.com/bitrise-steplib/steps-deploy-to-itunesconnect-deliver) step as well, which gives you more options.
+Alternatively you can use the [Deploy to App Store Connect with Deliver (formerly iTunes Connect)](https://bitrise.io/integrations/steps/deploy-to-itunesconnect-deliver) step as well, which gives you more options.
 
 ## bitrise.yml
 
@@ -31,7 +31,7 @@ Alternatively you can use the [Deploy to App Store Connect with Deliver (formerl
     inputs:
     - build_short_version_string: '1.0'
     - plist_path: BitriseTest/Info.plist
-- xcode-archive@4:
+- xcode-archive@5:
     inputs:
     - project_path: "$BITRISE_PROJECT_PATH"
     - scheme: "$BITRISE_SCHEME"

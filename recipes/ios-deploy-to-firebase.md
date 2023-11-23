@@ -14,8 +14,8 @@ Build and distribute your app to testers via Firebase App Distribution.
 
 ## Instructions
 
-1. Add the [Xcode Archive](https://github.com/bitrise-steplib/steps-xcode-archive) Step and set the required inputs, such as scheme, distribution method and the desired code signing method.
-2. Add the [Firebase App Distribution](https://github.com/guness/bitrise-step-firebase-app-distribution) Step and set the following inputs:
+1. Add the [Xcode Archive](https://bitrise.io/integrations/steps/xcode-archive) Step and set the required inputs, such as scheme, distribution method and the desired code signing method.
+2. Add the [Firebase App Distribution](https://bitrise.io/integrations/steps/firebase-app-distribution) Step and set the following inputs:
     * **Firebase token**: use the secret env var previously defined: `$FIREBASE_TOKEN`.
     * **Firebase App ID**: see the Prerequisites section above for details.
     * Optionally, you can define test groups or individual testers in the Step inputs.
@@ -23,15 +23,15 @@ Build and distribute your app to testers via Firebase App Distribution.
 ## bitrise.yml
 
 ```yaml
-- xcode-archive@6:
+- xcode-archive@5:
     inputs:
     - distribution_method: development
-    - scheme: # your scheme goes here
+    - scheme: "$BITRISE_SCHEME"
     - automatic_code_signing: api-key
 - firebase-app-distribution@0:
     inputs:
     - firebase_token: $FIREBASE_TOKEN
-    - app: # your app ID from Firebase
+    - app: 1:1234567890:ios:321abc456def7890 # your app ID from Firebase
     - testers: email@company.com # optional
     - groups: qa-team #optional
 ```

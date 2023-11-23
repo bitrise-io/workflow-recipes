@@ -14,50 +14,59 @@ Example Workflow for commits on the main branch of an iOS app. The Workflow cont
 
 ```yaml
 ---
-format_version: '11'
+format_version: '13'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
+
+meta:
+  bitrise.io:
+    stack: osx-xcode-15.0.x
+    machine_type_id: g2-m1.4core
+
 workflows:
   ci:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@7: {}
+    - git-clone@8: {}
     - restore-cocoapods-cache@1: {}
     - cocoapods-install@2: {}
+    - restore-carthage-cache@1: {}
     - carthage@3:
         inputs:
         - carthage_options: "--use-xcframeworks --platform iOS"
-    - recreate-user-schemes@1:
-        inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-    - xcode-test@4:
+    - restore-spm-cache@1: {}
+    - xcode-test@5:
         inputs:
         - log_formatter: xcodebuild
         - xcodebuild_options: "-enableCodeCoverage YES"
-    - xcode-archive@4:
+    - xcode-archive@5:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - scheme: "$BITRISE_SCHEME"
         - automatic_code_signing: apple-id
         - distribution_method: development
+    - save-spm-cache@1: {}
+    - save-carthage-cache@1: {}
+    - save-cocoapods-cache@1: {}
     - deploy-to-bitrise-io@2: {}
-    - slack@3:
+    - slack@4:
         inputs:
         - channel: "#build-notifications"
         - webhook_url: "$SLACK_WEBHOOK"
-    - save-cococoapods-cache@1: {}
+
 app:
   envs:
-  - opts:
+  - BITRISE_PROJECT_PATH: BitriseTest.xcworkspace
+    opts:
       is_expand: false
-    BITRISE_PROJECT_PATH: BitriseTest.xcworkspace
-  - opts:
+  - BITRISE_SCHEME: BitriseTest
+    opts:
       is_expand: false
-    BITRISE_SCHEME: BitriseTest
-  - opts:
+  - BITRISE_DISTRIBUTION_METHOD: development
+    opts:
       is_expand: false
-    BITRISE_DISTRIBUTION_METHOD: development
+
 trigger_map:
 - push_branch: main
   workflow: ci

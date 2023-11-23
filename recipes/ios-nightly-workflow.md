@@ -16,16 +16,21 @@ Check out the [guide](https://devcenter.bitrise.io/en/builds/starting-builds/sch
 
 ```yaml
 ---
-format_version: '11'
+format_version: '13'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
+
+meta:
+  bitrise.io:
+    stack: osx-xcode-15.0.x
+    machine_type_id: g2-m1.4core
+
 workflows:
   nightly:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@7: {}
-    - restore-cocoapods-cache@1: {}
+    - git-clone@8: {}
     - cocoapods-install@2: {}
     - carthage@3:
         inputs:
@@ -34,10 +39,7 @@ workflows:
         inputs:
         - build_short_version_string: '1.0'
         - plist_path: BitriseTest/Info.plist
-    - recreate-user-schemes@1:
-        inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-    - xcode-archive@4:
+    - xcode-archive@5:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - scheme: "$BITRISE_SCHEME"
@@ -46,7 +48,7 @@ workflows:
     - deploy-to-itunesconnect-application-loader@1:
         inputs:
         - connection: apple_id
-    - xcode-archive@4:
+    - xcode-archive@5:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - scheme: "$BITRISE_SCHEME"
@@ -55,23 +57,23 @@ workflows:
         - deploy-to-bitrise-io@2: {}
     - deploy-to-bitrise-io@2: {}
     - create-install-page-qr-code@1: {}
-    - slack@3:
+    - slack@4:
         inputs:
         - channel: "#build-notifications"
         - thumb_url: "$BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL"
         - webhook_url: "$SLACK_WEBHOOK"
-    - save-cocoapods-cache@1: {}
+
 app:
   envs:
-  - opts:
+  - BITRISE_PROJECT_PATH: BitriseTest.xcworkspace
+    opts:
       is_expand: false
-    BITRISE_PROJECT_PATH: BitriseTest.xcworkspace
-  - opts:
+  - BITRISE_SCHEME: BitriseTest
+    opts:
       is_expand: false
-    BITRISE_SCHEME: BitriseTest
-  - opts:
+  - BITRISE_DISTRIBUTION_METHOD: development
+    opts:
       is_expand: false
-    BITRISE_DISTRIBUTION_METHOD: development
 ```
 
 ## Relevant Links
