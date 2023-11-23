@@ -9,7 +9,6 @@ Example Workflow for commits on the main branch of an Android app. The workflow 
 3. [Running lint](/recipes/android-lint.md)
 4. Building a test app
 5. [Sending a Slack notification with the build status](/recipes/slack-send-build-status.md)
-6. [Filling the cache for upcoming Pull Request builds](/recipes/pull-request-build-caching.md)
 
 ## Instructions
 

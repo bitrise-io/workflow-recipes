@@ -96,7 +96,6 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 
 ### Optimisation
 
-* [Make Caching Efficient for Pull Request Builds](recipes/pull-request-build-caching.md)
 * [Shallow Clone the git Repo](recipes/shallow-clone-repo.md)
 * [(Android) Turn on Gradle build profiling](recipes/gradle-build-profiling.md)
 

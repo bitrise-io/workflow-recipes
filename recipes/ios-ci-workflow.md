@@ -8,7 +8,6 @@ Example Workflow for commits on the main branch of an iOS app. The Workflow cont
 2. [Running all unit and UI tests in simulator](/recipes/ios-simulator-test.md)
 3. [Building a test app and uploading to bitrise.io](/recipes/ios-deploy-to-bitrise.md)
 4. [Sending a Slack notification with the build status](/recipes/slack-send-build-status.md)
-5. [Filling the cache for upcoming pull request builds](/recipes/pull-request-build-caching.md)
 
 ## bitrise.yml
 
