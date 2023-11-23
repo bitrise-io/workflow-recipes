@@ -33,16 +33,16 @@ workflows:
         - carthage_options: "--use-xcframeworks --platform iOS"
     - set-xcode-build-number@1:
         inputs:
-        - build_short_version_string: "$VERSION_NUMBER"
-        - build_version: "$BITRISE_BUILD_NUMBER"
+        - build_short_version_string: $VERSION_NUMBER
+        - build_version: $BITRISE_BUILD_NUMBER
         - plist_path: BitriseTest/Info.plist
     - recreate-user-schemes@1:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
+        - project_path: $BITRISE_PROJECT_PATH
     - xcode-archive@5:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
         - automatic_code_signing: apple-id
         - distribution_method: app-store
     - deploy-to-itunesconnect-application-loader@1:

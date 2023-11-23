@@ -53,12 +53,12 @@ workflows:
         - test_type: instrumentation
     - android-lint@0:
         inputs:
-        - variant: "$VARIANT"
+        - variant: $VARIANT
     - android-build@1:
         inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - module: "$MODULE"
-        - variant: "$VARIANT"
+        - project_location: $PROJECT_LOCATION
+        - module: $MODULE
+        - variant: $VARIANT
     - deploy-to-bitrise-io@2: {}
     - create-install-page-qr-code@1: {}
     - comment-on-github-pull-request@0:
@@ -67,7 +67,7 @@ workflows:
             ![QR code]($BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL)
 
             $BITRISE_PUBLIC_INSTALL_PAGE_URL
-        - personal_access_token: "$GITHUB_ACCESS_TOKEN"
+        - personal_access_token: $GITHUB_ACCESS_TOKEN
     - save-gradle-cache@1: {}
 
 app:

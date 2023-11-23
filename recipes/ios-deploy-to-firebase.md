@@ -26,7 +26,7 @@ Build and distribute your app to testers via Firebase App Distribution.
 - xcode-archive@5:
     inputs:
     - distribution_method: development
-    - scheme: "$BITRISE_SCHEME"
+    - scheme: $BITRISE_SCHEME
     - automatic_code_signing: api-key
 - firebase-app-distribution@0:
     inputs:

@@ -42,13 +42,13 @@ workflows:
     - git-clone@8: {}
     - change-android-versioncode-and-versionname@1:
         inputs:
-        - new_version_name: "$VERSION_NAME"
-        - new_version_code: "$BITRISE_BUILD_NUMBER"
+        - new_version_name: $VERSION_NAME
+        - new_version_code: $BITRISE_BUILD_NUMBER
         - build_gradle_path: "$PROJECT_LOCATION/$MODULE/build.gradle"
     - android-build@1:
         inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - module: "$MODULE"
+        - project_location: $PROJECT_LOCATION
+        - module: $MODULE
         - build_type: aab
         - variant: release
     - sign-apk@1: {}

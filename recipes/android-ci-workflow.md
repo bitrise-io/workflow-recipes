@@ -41,29 +41,29 @@ workflows:
     - restore-gradle-cache@1: {}
     - android-unit-test@1:
         inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - variant: "$VARIANT"
+        - project_location: $PROJECT_LOCATION
+        - variant: $VARIANT
     - android-build-for-ui-testing@0:
         inputs:
-        - variant: "$VARIANT"
-        - module: "$MODULE"
+        - variant: $VARIANT
+        - module: $MODULE
     - virtual-device-testing-for-android@1:
         inputs:
         - test_devices: NexusLowRes,30,en,portrait
         - test_type: instrumentation
     - android-lint@0:
         inputs:
-        - variant: "$VARIANT"
+        - variant: $VARIANT
     - android-build@1:
         inputs:
-        - project_location: "$PROJECT_LOCATION"
-        - module: "$MODULE"
-        - variant: "$VARIANT"
+        - project_location: $PROJECT_LOCATION
+        - module: $MODULE
+        - variant: $VARIANT
     - deploy-to-bitrise-io@2: {}
     - slack@4:
         inputs:
         - channel: "#build-notifications"
-        - webhook_url: "$SLACK_WEBHOOK"
+        - webhook_url: $SLACK_WEBHOOK
     - save-gradle-cache@1: {}
 
 app:

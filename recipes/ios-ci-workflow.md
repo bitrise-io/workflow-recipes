@@ -42,8 +42,8 @@ workflows:
         - xcodebuild_options: "-enableCodeCoverage YES"
     - xcode-archive@5:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
         - automatic_code_signing: apple-id
         - distribution_method: development
     - save-spm-cache@1: {}
@@ -53,7 +53,7 @@ workflows:
     - slack@4:
         inputs:
         - channel: "#build-notifications"
-        - webhook_url: "$SLACK_WEBHOOK"
+        - webhook_url: $SLACK_WEBHOOK
 
 app:
   envs:

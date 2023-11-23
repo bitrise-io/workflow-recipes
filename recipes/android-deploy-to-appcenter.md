@@ -34,6 +34,6 @@ Build and distribute your app to testers via Visual Studio App Center.
     inputs:
     - owner_name: my-company
     - app_name: my-app
-    - app_path: "$BITRISE_APK_PATH"
-    - api_token: "$APPCENTER_API_TOKEN"
+    - app_path: $BITRISE_APK_PATH
+    - api_token: $APPCENTER_API_TOKEN
 ```

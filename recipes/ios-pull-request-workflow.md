@@ -42,8 +42,8 @@ workflows:
         - xcodebuild_options: "-enableCodeCoverage YES"
     - xcode-archive@5:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
         - automatic_code_signing: apple-id
         - distribution_method: development
     - deploy-to-bitrise-io@2: {}
@@ -54,7 +54,7 @@ workflows:
             ![QR code]($BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL)
 
             $BITRISE_PUBLIC_INSTALL_PAGE_URL
-        - personal_access_token: "$GITHUB_ACCESS_TOKEN"
+        - personal_access_token: $GITHUB_ACCESS_TOKEN
     - save-carthage-cache@1: {}
     - save-cocoapods-cache@1: {}
     - save-spm-cache@1: {}

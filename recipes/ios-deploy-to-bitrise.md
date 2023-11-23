@@ -21,8 +21,8 @@ Build and distribute your app to testers via [Bitrise.io Ship](https://devcenter
 ```yaml
 - xcode-archive@5:
     inputs:
-    - project_path: "$BITRISE_PROJECT_PATH"
-    - scheme: "$BITRISE_SCHEME"
+    - project_path: $BITRISE_PROJECT_PATH
+    - scheme: $BITRISE_SCHEME
     - automatic_code_signing: apple-id
     - distribution_method: development
 - deploy-to-bitrise-io@2: {}

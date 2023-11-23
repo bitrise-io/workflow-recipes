@@ -33,8 +33,8 @@ Alternatively you can use the [Deploy to App Store Connect with Deliver (formerl
     - plist_path: BitriseTest/Info.plist
 - xcode-archive@5:
     inputs:
-    - project_path: "$BITRISE_PROJECT_PATH"
-    - scheme: "$BITRISE_SCHEME"
+    - project_path: $BITRISE_PROJECT_PATH
+    - scheme: $BITRISE_SCHEME
     - automatic_code_signing: api_key
     - distribution_method: app-store
 - deploy-to-itunesconnect-application-loader@1:

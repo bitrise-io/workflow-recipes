@@ -41,8 +41,8 @@ workflows:
         - plist_path: BitriseTest/Info.plist
     - xcode-archive@5:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
         - automatic_code_signing: apple-id
         - distribution_method: app-store
     - deploy-to-itunesconnect-application-loader@1:
@@ -50,8 +50,8 @@ workflows:
         - connection: apple_id
     - xcode-archive@5:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
         - automatic_code_signing: apple-id
         - distribution_method: development
         - deploy-to-bitrise-io@2: {}
@@ -60,8 +60,8 @@ workflows:
     - slack@4:
         inputs:
         - channel: "#build-notifications"
-        - thumb_url: "$BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL"
-        - webhook_url: "$SLACK_WEBHOOK"
+        - thumb_url: $BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL
+        - webhook_url: $SLACK_WEBHOOK
 
 app:
   envs:

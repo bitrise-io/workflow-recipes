@@ -37,14 +37,14 @@ Building the app and uploading to Google Play to internal, alpha, beta or produc
     - build_gradle_path: "$PROJECT_LOCATION/$MODULE/build.gradle"
 - android-build@1:
     inputs:
-    - project_location: "$PROJECT_LOCATION"
-    - module: "$MODULE"
+    - project_location: $PROJECT_LOCATION
+    - module: $MODULE
     - build_type: aab
     - variant: release
 - sign-apk@1: {}
 - google-play-deploy@3:
     inputs:
-    - service_account_json_key_path: "$BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL"
+    - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
     - package_name: io.bitrise.sample.android
     - status: completed
     - track: internal

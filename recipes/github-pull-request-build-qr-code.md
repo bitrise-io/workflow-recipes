@@ -33,5 +33,5 @@ $BITRISE_PUBLIC_INSTALL_PAGE_URL
         ![QR code]($BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL)
 
         $BITRISE_PUBLIC_INSTALL_PAGE_URL
-    - personal_access_token: "$GITHUB_ACCESS_TOKEN"
+    - personal_access_token: $GITHUB_ACCESS_TOKEN
 ```

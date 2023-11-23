@@ -27,13 +27,13 @@ Build and distribute your app to testers via AppCenter.
 ```yaml
 - xcode-archive@5:
     inputs:
-    - project_path: "$BITRISE_PROJECT_PATH"
-    - scheme: "$BITRISE_SCHEME"
+    - project_path: $BITRISE_PROJECT_PATH
+    - scheme: $BITRISE_SCHEME
     - automatic_code_signing: apple-id
     - distribution_method: development
 - appcenter-deploy-ios@2:
     inputs:
     - owner_name: my-company
     - app_name: my-app
-    - api_token: "$APPCENTER_API_TOKEN"
+    - api_token: $APPCENTER_API_TOKEN
 ```
