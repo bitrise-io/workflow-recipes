@@ -14,31 +14,36 @@ Example Workflow for iOS Pull Request validation. The Workflow contains:
 
 ```yaml
 ---
-format_version: '11'
+format_version: '13'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
+
+meta:
+  bitrise.io:
+    stack: osx-xcode-15.0.x
+    machine_type_id: g2-m1.4core
+
 workflows:
   pull-request:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@7: {}
+    - git-clone@8: {}
     - restore-cocoapods-cache@1: {}
     - cocoapods-install@2: {}
+    - restore-carthage-cache@1: {}
     - carthage@3:
         inputs:
         - carthage_options: "--use-xcframeworks --platform iOS"
-    - recreate-user-schemes@1:
-        inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-    - xcode-test@4:
+    - restore-spm-cache@1: {}
+    - xcode-test@5:
         inputs:
         - log_formatter: xcodebuild
         - xcodebuild_options: "-enableCodeCoverage YES"
-    - xcode-archive@4:
+    - xcode-archive@5:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
         - automatic_code_signing: apple-id
         - distribution_method: development
     - deploy-to-bitrise-io@2: {}
@@ -49,8 +54,11 @@ workflows:
             ![QR code]($BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL)
 
             $BITRISE_PUBLIC_INSTALL_PAGE_URL
-        - personal_access_token: "$GITHUB_ACCESS_TOKEN"
+        - personal_access_token: $GITHUB_ACCESS_TOKEN
+    - save-carthage-cache@1: {}
     - save-cocoapods-cache@1: {}
+    - save-spm-cache@1: {}
+
 app:
   envs:
   - opts:
@@ -62,6 +70,7 @@ app:
   - opts:
       is_expand: false
     BITRISE_DISTRIBUTION_METHOD: development
+
 trigger_map:
 - pull_request_source_branch: "*"
   workflow: pull-request

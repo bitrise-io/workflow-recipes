@@ -10,7 +10,7 @@ Run unit tests (for example, `testDebugUnitTest`).
     - **Project Location**: Use the default `$BITRISE_SOURCE_DIR` or `$PROJECT_LOCATION`. You can set a specific path but the automatically exposed Environment Variables are usually the best option.
     - **Variant**: Use the `$VARIANT` Enviromment Variable, or specify a variant manually.
     - **Module**: Specify one or leave it blank to run tests in all of the modules.
-2. Add a [Deploy to Bitrise.io - Apps, Logs, Artifacts](https://www.bitrise.io/integrations/steps/deploy-to-bitrise-io) Step that makes the test results available in the [Test Reports add-on](https://devcenter.bitrise.io/en/testing/test-reports.html).
+2. Add a [Deploy to Bitrise.io - Apps, Logs, Artifacts](https://www.bitrise.io/integrations/steps/deploy-to-bitrise-io) Step that makes the test results available in the [Test Reports add-on](https://devcenter.bitrise.io/en/testing/test-reports.html). The failed tests will be also available under the `Test Results` tab on the build details page.
 
 ## bitrise.yml
 

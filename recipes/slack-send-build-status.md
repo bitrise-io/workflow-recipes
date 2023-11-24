@@ -17,7 +17,7 @@ Sending a slack massage to Slack with the build status after a build has finishe
 ## bitrise.yml
 
 ```yaml
-- slack@3:
+- slack@4:
     inputs:
     - channel: "#build-notifications"
     - webhook_url: $SLACK_WEBHOOK

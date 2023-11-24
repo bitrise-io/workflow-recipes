@@ -11,7 +11,7 @@ Run unit or UI tests on a physical device. Our device testing solution is based 
 
 ## Instructions
 
-1. Add an [Xcode Build for testing for iOS](https://github.com/bitrise-steplib/steps-xcode-build-for-test) Step.
+1. Add an [Xcode Build for testing for iOS](https://bitrise.io/integrations/steps/xcode-build-for-test) Step.
 2. Add a [[BETA] iOS Device Testing](https://www.bitrise.io/integrations/steps/virtual-device-testing-for-ios) Step.
     - Setup code signing for the Step.
 3. Add a [Deploy to Bitrise.io - Apps, Logs, Artifacts](https://www.bitrise.io/integrations/steps/deploy-to-bitrise-io) Step that makes the test results available in the [Test Reports add-on](https://devcenter.bitrise.io/en/testing/test-reports.html).
@@ -19,7 +19,7 @@ Run unit or UI tests on a physical device. Our device testing solution is based 
 ## bitrise.yml
 
 ```yaml
-- xcode-build-for-test@1:
+- xcode-build-for-test@3:
     inputs:
     - automatic_code_signing: api_key
 - virtual-device-testing-for-ios@1: {}

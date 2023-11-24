@@ -30,7 +30,7 @@ To test this configuration in a new Bitrise example project, do the following:
 ## bitrise.yml
 
 ```yaml
-format_version: "11"
+format_version: "13"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 
@@ -42,24 +42,24 @@ meta:
 pipelines:
   ui_test_on_multiple_devices:
     stages:
-    - build_tests: { }
-    - run_rests: { }
+    - build_tests: {}
+    - run_rests: {}
 
 stages:
   build_tests:
     workflows:
-    - build_for_ui_testing: { }
+    - build_for_ui_testing: {}
 
   run_rests:
     workflows:
-    - ui_test_on_phone: { }
-    - ui_test_on_tablet: { }
-    - ui_test_on_foldable: { }
+    - ui_test_on_phone: {}
+    - ui_test_on_tablet: {}
+    - ui_test_on_foldable: {}
 
 workflows:
   build_for_ui_testing:
     steps:
-    - git-clone@6: { }
+    - git-clone@8: {}
     - android-build-for-ui-testing@0:
         inputs:
         - module: app
@@ -105,6 +105,6 @@ workflows:
     - avd-manager@1:
         inputs:
         - profile: $EMULATOR_PROFILE
-    - wait-for-android-emulator@1: { }
-    - android-instrumented-test@0: { }
+    - wait-for-android-emulator@1: {}
+    - android-instrumented-test@0: {}
 ```

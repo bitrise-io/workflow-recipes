@@ -30,11 +30,11 @@ parent-workflow:
       - workflows: |-
           workflow-1
           workflow-2
-      - access_token: "$BITRISE_API_KEY"
+      - access_token: $BITRISE_API_KEY
   - script@1:
       inputs:
       - content: echo "Doing something else..."
   - build-router-wait@0:
       inputs:
-      - access_token: "$BITRISE_API_KEY"
+      - access_token: $BITRISE_API_KEY
 ```

@@ -22,7 +22,7 @@ Sending a QR code of the iOS or Android build uploaded to bitrise.io to Slack.
 ```yaml
 - deploy-to-bitrise-io@2: {}
 - create-install-page-qr-code@1: {}
-- slack@3:
+- slack@4:
     inputs:
     - channel: "#build-notifications"
     - thumb_url: $BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL

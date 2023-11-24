@@ -30,7 +30,7 @@ To test this configuration in a new Bitrise example project, do the following:
 ## bitrise.yml
 
 ```yaml
-format_version: "11"
+format_version: "13"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 
@@ -42,13 +42,13 @@ meta:
 pipelines:
   pipeline_unit_test:
     stages:
-    - stage_unit_test: { }
+    - stage_unit_test: {}
 
 stages:
   stage_unit_test:
     workflows:
-    - unit_test_app: { }
-    - unit_test_library: { }
+    - unit_test_app: {}
+    - unit_test_library: {}
 
 workflows:
   unit_test_app:
@@ -66,7 +66,7 @@ workflows:
 
   _test:
     steps:
-    - git-clone@6: { }
+    - git-clone@8: {}
     - android-unit-test@1:
         inputs:
         - module: $MODULE

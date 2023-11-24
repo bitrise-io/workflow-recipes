@@ -15,12 +15,12 @@ Building the app and uploading to Google Play to internal, alpha, beta or produc
     - **Path to the build.gradle file**: The default value is `$PROJECT_LOCATION/$MODULE/build.gradle` and in most cases you don't have to change it. 
     - **New versionName**: for example, `1.0.1`.
     - **New versionCode**: for example, `42`.
-2. Add the [Android Build](https://github.com/bitrise-steplib/bitrise-step-android-build) step and set the following inputs:
+2. Add the [Android Build](https://bitrise.io/integrations/steps/android-build) step and set the following inputs:
     - **Build type**: Set this to `aab`
     - **Variant**: Use `release`, `debug`, or one of your custom variants if you have any.
     - **Module**: for example `$MODULE` .
-3. Add the [Android Sign](https://github.com/bitrise-steplib/steps-sign-apk) Step.
-4. Add the [Google Play Deploy](https://github.com/bitrise-steplib/steps-google-play-deploy) Step and set the following inputs:
+3. Add the [Android Sign](https://bitrise.io/integrations/steps/sign-apk) Step.
+4. Add the [Google Play Deploy](https://bitrise.io/integrations/steps/google-play-deploy) Step and set the following inputs:
     - **Service Account JSON key file path**: `$BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL`.
     - **Package name**: for example, `com.your.package.name`.
     - **Track**: Choose one of `internal`, `alpha`, `beta`, or `production`.
@@ -37,14 +37,14 @@ Building the app and uploading to Google Play to internal, alpha, beta or produc
     - build_gradle_path: "$PROJECT_LOCATION/$MODULE/build.gradle"
 - android-build@1:
     inputs:
-    - project_location: "$PROJECT_LOCATION"
-    - module: "$MODULE"
+    - project_location: $PROJECT_LOCATION
+    - module: $MODULE
     - build_type: aab
     - variant: release
 - sign-apk@1: {}
 - google-play-deploy@3:
     inputs:
-    - service_account_json_key_path: "$BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL"
+    - service_account_json_key_path: $BITRISEIO_SERVICE_ACCOUNT_JSON_KEY_URL
     - package_name: io.bitrise.sample.android
     - status: completed
     - track: internal

@@ -37,7 +37,7 @@ If you want builds triggered by pull requests to only restore the cache and skip
 
 ```yaml
 steps:
-- restore-cache@1:
+- restore-cache@2:
     inputs:
     - key: node-modules-{{ checksum "package-lock.json" }}
 
@@ -90,7 +90,7 @@ By including a checksum in the **Cache key** input, the **Save cache** Step will
 workflows:
     pr-validation:
         steps:
-        - restore-cache@1:
+        - restore-cache@2:
             inputs:
             - key: |-
                 node-modules-{{ checksum "package-lock.json" }}

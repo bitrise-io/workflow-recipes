@@ -32,7 +32,7 @@ The example Pipeline config showcases how to run different test groups in parall
 
 ```yaml
 ---
-format_version: '11'
+format_version: '13'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
@@ -64,8 +64,8 @@ stages:
 workflows:
   xcode_build_for_test:
     steps:
-    - git-clone@6: {}
-    - xcode-build-for-test@2:
+    - git-clone@8: {}
+    - xcode-build-for-test@3:
         inputs:
         - destination: generic/platform=iOS Simulator
     - deploy-to-bitrise-io@2:

@@ -12,47 +12,54 @@ Example Workflow for uploading a release draft of an iOS app to the App Store. T
 
 ```yaml
 ---
-format_version: '11'
+format_version: '13'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
+
+meta:
+  bitrise.io:
+    stack: osx-xcode-15.0.x
+    machine_type_id: g2-m1.4core
+
 workflows:
   release:
     steps:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-    - git-clone@7: {}
+    - git-clone@8: {}
     - restore-cocoapods-cache@1: {}
     - carthage@3:
         inputs:
         - carthage_options: "--use-xcframeworks --platform iOS"
     - set-xcode-build-number@1:
         inputs:
-        - build_short_version_string: "$VERSION_NUMBER"
-        - build_version: "$BITRISE_BUILD_NUMBER"
+        - build_short_version_string: $VERSION_NUMBER
+        - build_version: $BITRISE_BUILD_NUMBER
         - plist_path: BitriseTest/Info.plist
     - recreate-user-schemes@1:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-    - xcode-archive@4:
+        - project_path: $BITRISE_PROJECT_PATH
+    - xcode-archive@5:
         inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - scheme: "$BITRISE_SCHEME"
+        - project_path: $BITRISE_PROJECT_PATH
+        - scheme: $BITRISE_SCHEME
         - automatic_code_signing: apple-id
         - distribution_method: app-store
     - deploy-to-itunesconnect-application-loader@1:
         inputs:
         - connection: apple_id
+
 app:
   envs:
-  - opts:
+  - BITRISE_PROJECT_PATH: BitriseTest.xcworkspace
+    opts:
       is_expand: false
-    BITRISE_PROJECT_PATH: BitriseTest.xcworkspace
-  - opts:
+  - BITRISE_SCHEME: BitriseTest
+    opts:
       is_expand: false
-    BITRISE_SCHEME: BitriseTest
-  - opts:
+  - BITRISE_DISTRIBUTION_METHOD: development
+    opts:
       is_expand: false
-    BITRISE_DISTRIBUTION_METHOD: development
 ```
 
 ## Relevant Links
