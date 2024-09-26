@@ -16,14 +16,14 @@ Check out the [guide](https://devcenter.bitrise.io/en/builds/starting-builds/sch
 
 ```yaml
 ---
-format_version: '13'
+format_version: '17'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
 meta:
   bitrise.io:
-    stack: osx-xcode-15.0.x
-    machine_type_id: g2-m1.4core
+    stack: osx-xcode-16.0.x
+    machine_type_id: g2.mac.medium
 
 workflows:
   nightly:
@@ -35,10 +35,9 @@ workflows:
     - carthage@3:
         inputs:
         - carthage_options: "--use-xcframeworks --platform iOS"
-    - set-xcode-build-number@1:
+    - set-xcode-build-number@2:
         inputs:
         - build_short_version_string: '1.0'
-        - plist_path: BitriseTest/Info.plist
     - xcode-archive@5:
         inputs:
         - project_path: $BITRISE_PROJECT_PATH

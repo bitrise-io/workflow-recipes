@@ -12,14 +12,14 @@ Example Workflow for uploading a release draft of an iOS app to the App Store. T
 
 ```yaml
 ---
-format_version: '13'
+format_version: '17'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
 meta:
   bitrise.io:
-    stack: osx-xcode-15.0.x
-    machine_type_id: g2-m1.4core
+    stack: osx-xcode-16.0.x
+    machine_type_id: g2.mac.medium
 
 workflows:
   release:
@@ -27,15 +27,13 @@ workflows:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@8: {}
-    - restore-cocoapods-cache@1: {}
+    - restore-cocoapods-cache@2: {}
     - carthage@3:
         inputs:
         - carthage_options: "--use-xcframeworks --platform iOS"
-    - set-xcode-build-number@1:
+    - set-xcode-build-number@2:
         inputs:
         - build_short_version_string: $VERSION_NUMBER
-        - build_version: $BITRISE_BUILD_NUMBER
-        - plist_path: BitriseTest/Info.plist
     - recreate-user-schemes@1:
         inputs:
         - project_path: $BITRISE_PROJECT_PATH

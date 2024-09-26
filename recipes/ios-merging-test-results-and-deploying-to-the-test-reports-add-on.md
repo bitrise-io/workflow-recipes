@@ -37,7 +37,7 @@ This Stage runs the `deploy_test_results` Workflow:
 
 ```yaml
 ---
-format_version: '13'
+format_version: '17'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
@@ -48,7 +48,8 @@ app:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-13.2.x
+    stack: osx-xcode-16.0.x
+    machine_type_id: g2.mac.medium
 
 pipelines:
   build_and_run_tests:

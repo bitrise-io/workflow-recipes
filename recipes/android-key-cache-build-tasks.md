@@ -23,7 +23,7 @@ If you choose the second option and use Bitrise Android Steps, there is a Step i
 ## bitrise.yml
 
 ```yaml
-- restore-gradle-cache@1: {}
+- restore-gradle-cache@2: {}
 - android-build@1:
     inputs:
     - variant: debug

@@ -15,7 +15,7 @@ create-release-branch:
   steps:
   - activate-ssh-key@4:
       run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
-  - git-clone@6: {}
+  - git-clone@8: {}
   - script@1:
       inputs:
       - content: |-

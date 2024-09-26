@@ -24,13 +24,13 @@ Also generate a new Github access token and add a new secret called `GITHUB_ACCE
 
 ```yaml
 ---
-format_version: '13'
+format_version: '17'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 
 meta:
   bitrise.io:
-    stack: linux-docker-android-20.04
+    stack: linux-docker-android-22.04
     machine_type_id: standard
 
 workflows:
@@ -39,7 +39,7 @@ workflows:
     - activate-ssh-key@4:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone@8: {}
-    - restore-gradle-cache@1: {}
+    - restore-gradle-cache@2: {}
     - android-unit-test@1:
         inputs:
         - project_location: $PROJECT_LOCATION

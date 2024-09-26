@@ -20,7 +20,7 @@ You can always check out what key and path settings the SPM cache step uses:
 ## bitrise.yml
 
 ```yaml
-- restore-spm-cache@1: {}
+- restore-spm-cache@2: {}
 - xcode-test@5: {}
 - save-spm-cache@1: {}
 ```

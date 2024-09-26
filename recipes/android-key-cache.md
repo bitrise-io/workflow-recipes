@@ -23,7 +23,7 @@ You can always check out what key and path settings the Gradle cache step uses:
 ## bitrise.yml
 
 ```yaml
-- restore-gradle-cache@1: {}
+- restore-gradle-cache@2: {}
 - android-build@1:
     inputs:
     - variant: debug

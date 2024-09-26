@@ -26,7 +26,7 @@ Run UI / instrumentation tests on a local emulator instance.
     inputs:
     - gradlew_path: ./gradlew
     - gradle_task: connectedDebugAndroidTest
-- custom-test-results-export@0:
+- custom-test-results-export@1:
     inputs:
     - search_pattern: "*.xml"
     - base_path: $BITRISE_SOURCE_DIR/app/build/outputs/androidTest-results
