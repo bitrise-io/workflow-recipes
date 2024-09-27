@@ -20,7 +20,7 @@ You can always check out what key and path settings the Dart cache step uses:
 ## bitrise.yml
 
 ```yaml
-- restore-dart-cache@1: {}
+- restore-dart-cache@2: {}
 - flutter-build@0: {}
 - save-dart-cache@1: {}
 ```

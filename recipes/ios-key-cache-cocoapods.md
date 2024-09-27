@@ -20,7 +20,7 @@ You can always check out what key and path settings the Cocapods cache step uses
 ## bitrise.yml
 
 ```yaml
-- restorecocopods-cache@1: {}
+- restorecocopods-cache@2: {}
 - cocoapods-install@2: {}
 - save-cocopods-cache@1: {}
 ```

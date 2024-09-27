@@ -21,7 +21,7 @@ You can always check out what key and path settings the NPM cache step uses:
 ## bitrise.yml
 
 ```yaml
-- restore-npm-cache@1: {}
+- restore-npm-cache@2: {}
 - npm@1:
     inputs:
     - command: install

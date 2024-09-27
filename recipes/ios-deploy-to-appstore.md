@@ -27,10 +27,9 @@ Alternatively you can use the [Deploy to App Store Connect with Deliver (formerl
 ## bitrise.yml
 
 ```yaml
-- set-xcode-build-number@1:
+- set-xcode-build-number@2:
     inputs:
     - build_short_version_string: '1.0'
-    - plist_path: BitriseTest/Info.plist
 - xcode-archive@5:
     inputs:
     - project_path: $BITRISE_PROJECT_PATH

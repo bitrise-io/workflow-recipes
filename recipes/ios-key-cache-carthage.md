@@ -20,7 +20,7 @@ You can always check out what key and path settings the Carthage cache step uses
 ## bitrise.yml
 
 ```yaml
-- restore-carthage-cache@1: {}
-- carthage@1: {}
+- restore-carthage-cache@2: {}
+- carthage@3: {}
 - save-carthage-cache@1: {}
 ```

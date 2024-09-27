@@ -81,5 +81,5 @@ If you only want to display task execution times only in the build log, you can 
         set -x
 
         zip -r $BITRISE_DEPLOY_DIR/gradle-profile.zip $PROJECT_LOCATION/build/reports/profile
-- deploy-to-bitrise-io@1: {}
+- deploy-to-bitrise-io@2: {}
 ```
