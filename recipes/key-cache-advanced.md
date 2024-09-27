@@ -1,5 +1,7 @@
 # Advanced key-based cache recipes
 
+## Description
+
 These workflow recipes are based on the **Save cache** and **Restore cache** Steps.
 
 For recipes about the most popular platforms and dependency managers, check out the **Key-based caching** section in the [README](../README.md).
@@ -118,3 +120,7 @@ cache-
 ```
 
 The keys listed in the step input are processed in priority order. If there is a cache entry for the exact same branch, the first rule will match that. You can also compute the cache key of the pull requests's target branch (such as `main` or `trunk`) via the `BITRISEIO_GIT_BRANCH_DEST` env var, which is automatically set for PR builds. Restoring the cache from the target branch can be useful when there are multiple long-lived branches and PRs are targeting different branches.
+
+## Recipe Tags
+
+no-auto-apply, no-single-bitrise-yml
