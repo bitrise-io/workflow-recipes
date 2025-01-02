@@ -8,9 +8,9 @@ This example uses the [sample-swift-project-with-parallel-ui-test](https://githu
 
 `run_ui_tests` and `run_unit_tests` Workflows are extended with a `deploy-to-bitrise-io` Step to make the generated test results available for the next Stage.
 
-`build_and_run_tests` Pipeline is extended with a new Stage: `deploy_test_results`.
+`build_and_run_tests` Pipeline is extended with a new workflow: `deploy_test_results`.
 
-This Stage runs the `deploy_test_results` Workflow:
+This Workflow does the following:
 1. `pull-intermediate-files` Step downloads the previous stage (`run_tests`) generated test results.
 1. `script` Step moves each test result into a new test run directory within the Test Report add-on deploy dir and creates the related `test-info.json` file.
 1. `deploy-to-bitrise-io` Step deploys the merged test results.
@@ -53,24 +53,14 @@ meta:
 
 pipelines:
   build_and_run_tests:
-    stages:
-    - build_tests: {}
-    - run_tests: {}
-    - deploy_test_results: {}
-
-stages:
-  build_tests:
     workflows:
-    - xcode_build_for_test: {}
-
-  run_tests:
-    workflows:
-    - run_ui_tests: {}
-    - run_unit_tests: {}
-
-  deploy_test_results:
-    workflows:
-    - merge_and_deploy_test_results: {}
+      xcode_build_for_test: {}
+      run_ui_tests:
+        depends_on: [xcode_build_for_test]
+      run_unit_tests: 
+        depends_on: [xcode_build_for_test]
+      merge_and_deploy_test_results: 
+        depends_on: [run_ui_tests, run_unit_tests]
 
 workflows:
   xcode_build_for_test:
@@ -111,7 +101,7 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: run_tests\..*
+        - artifact_sources: .*
     - script@1:
         inputs:
         - content: |
@@ -140,5 +130,5 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_tests.xcode_build_for_test
+        - artifact_sources: xcode_build_for_test
 ```
