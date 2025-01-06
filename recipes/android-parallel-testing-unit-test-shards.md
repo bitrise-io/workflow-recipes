@@ -4,7 +4,7 @@
 
 Running the unit tests of a modularized app in parallel Workflows utilizing Pipelines.
 
-This Pipeline contains one Stage — `stage_unit_test` — that executes two Workflows in parallel:
+This Pipeline contains two Workflows which are executed in parallel:
 
 1. `unit_test_app`: This Workflow runs the unit tests of the `app` module using the `android-unit-test` Step.
 1. `unit_test_library`: This Workflow runs the unit tests of the `lib-example` module using the `android-unit-test` Step.
@@ -41,14 +41,9 @@ meta:
 
 pipelines:
   pipeline_unit_test:
-    stages:
-    - stage_unit_test: {}
-
-stages:
-  stage_unit_test:
     workflows:
-    - unit_test_app: {}
-    - unit_test_library: {}
+      unit_test_app: {}
+      unit_test_library: {}
 
 workflows:
   unit_test_app:

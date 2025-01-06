@@ -8,9 +8,9 @@ This example uses the [sample-swift-project-with-parallel-ui-test](https://githu
 
 The example Pipeline config showcases how to run different test groups in parallel.
 
-`build_and_run_tests` pipeline runs two Stages sequentially:
-1. `build_tests` Stage that runs the `xcode_build_for_test` Workflow. This Workflow git clones the sample project and runs the `xcode-build-for-test` Step to build the target and associated tests. The built test bundle is transferred to the next Stage (`run_tests`) via the `deploy-to-bitrise-io` Step.
-1. `run_tests` Stage runs two Workflows in parallel: `run_ui_tests` and `run_unit_tests`. Both of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the previous Stage built test bundle. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
+`build_and_run_tests` pipeline's Workflows can be split into two logical groups:
+1. Build tests: The `xcode_build_for_test` Workflow git clones the sample project and runs the `xcode-build-for-test` Step to build the target and associated tests. The built test bundle is shared with the following Workflows via the `deploy-to-bitrise-io` Step.
+1. Run tests: Then two Workflows run in parallel: `run_ui_tests` and `run_unit_tests`. Both of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the previous Workflow built test bundle. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-run-test-groups-in-parallel.png)
 
@@ -48,19 +48,12 @@ meta:
 
 pipelines:
   build_and_run_tests:
-    stages:
-    - build_tests: {}
-    - run_tests: {}
-
-stages:
-  build_tests:
     workflows:
-    - xcode_build_for_test: {}
-
-  run_tests:
-    workflows:
-    - run_ui_tests: {}
-    - run_unit_tests: {}
+      xcode_build_for_test: {}
+      run_ui_tests:
+        depends_on: [xcode_build_for_test]
+      run_unit_tests:
+        depends_on: [xcode_build_for_test]
 
 workflows:
   xcode_build_for_test:
@@ -95,5 +88,5 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_tests.xcode_build_for_test
+        - artifact_sources: xcode_build_for_test
 ```

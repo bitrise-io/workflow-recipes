@@ -4,7 +4,7 @@
 
 Running unit tests and UI tests in parallel utilizing Pipelines.
 
-This Pipeline contains one Stage — `stage_unit_and_ui_test` — that executes two Workflows in parallel:
+This Pipeline contains two Workflows which are executed in parallel:
 
 1. `unit_tests`: This Workflow simply runs the unit tests of the given module and variant using the `android-unit-test` Step.
 1. `ui_tests`: This Workflow builds the given module and variant using the `android-build-for-ui-testing` Step, spins up an emulator using the `avd-manager` Step, waits for the emulator to boot using the `wait-for-android-emulator` Step, and runs the UI tests using the `android-instrumented-test` Step.
@@ -41,14 +41,9 @@ meta:
 
 pipelines:
   pipeline_unit_and_ui_test:
-    stages:
-    - stage_unit_and_ui_test: {}
-
-stages:
-  stage_unit_and_ui_test:
     workflows:
-    - unit_tests: {}
-    - ui_tests: {}
+      unit_tests: {}
+      ui_tests: {}
 
 workflows:
   unit_tests:

@@ -4,10 +4,10 @@
 
 Running the UI or instrumented tests of a single module in parallel Workflows utilizing Pipelines. You can run the tests in parallel by shards or by devices.
 
-The Pipeline contains two Stages that are run serially:
+The Pipeline's four Workflows can be split into two logical groups:
 
-1. `build_tests`: This Stage executes a Workflow — named `build_for_ui_testing` — that runs the `android-build-for-ui-testing` Step to build APKs for use in testing, and runs the `deploy-to-bitrise-io` Step to save those APKs for use in the later Stages. Performing this Stage separately from the actual testing allows for each test Stage to use these pre-built APKs rather than having to rebuild them for each test Stage.
-1. `run_tests`: This Stage executes three UI test Workflows in parallel — `ui_test_on_phone`, `ui_test_on_tablet`, `ui_test_on_foldable` — which use the `android-instrumented-test` Step to run the UI tests on the APKs built in the previous Worflow on each specific device type.
+1. Build tests: First a single Workflow is executed — named `build_for_ui_testing` — that runs the `android-build-for-ui-testing` Step to build APKs for use in testing, and runs the `deploy-to-bitrise-io` Step to save those APKs for use in the later Workflows. Running this Workflow separately from the actual testing allows for each test Workflow to use these pre-built APKs rather than having to rebuild them for each test.
+1. Run tests: Then three UI test Workflows are executed in parallel — `ui_test_on_phone`, `ui_test_on_tablet`, `ui_test_on_foldable` — which use the `android-instrumented-test` Step to run the UI tests on the APKs built in the previous Worflow on each specific device type.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./android-parallel-ui-tests-on-multiple-devices.png)
 
@@ -41,20 +41,14 @@ meta:
 
 pipelines:
   ui_test_on_multiple_devices:
-    stages:
-    - build_tests: {}
-    - run_rests: {}
-
-stages:
-  build_tests:
     workflows:
-    - build_for_ui_testing: {}
-
-  run_rests:
-    workflows:
-    - ui_test_on_phone: {}
-    - ui_test_on_tablet: {}
-    - ui_test_on_foldable: {}
+      build_for_ui_testing: {}      
+      ui_test_on_phone:
+        depends_on: [build_for_ui_testing]
+      ui_test_on_tablet:
+        depends_on: [build_for_ui_testing]
+      ui_test_on_foldable:
+        depends_on: [build_for_ui_testing]
 
 workflows:
   build_for_ui_testing:
@@ -98,7 +92,7 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: build_tests.build_for_ui_testing
+        - artifact_sources: build_for_ui_testing
 
   _run_tests:
     steps:
