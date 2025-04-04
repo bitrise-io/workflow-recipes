@@ -13,8 +13,7 @@ You can use Workflow Recipes in two ways:
 
 All you need to do here is follow the step-by-step instructions in the Recipe.
 
-![recipes_ui_4](https://user-images.githubusercontent.com/5689177/150490578-788aac88-3ac1-404d-900b-c94e131af3d4.gif)
-
+![workflow_recepies_ui](https://github.com/user-attachments/assets/6adaec87-05d9-4c1d-b66a-4fc50a882729)
 
 ### Copy-pasting the bitrise.yml snippet
 
@@ -24,7 +23,7 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 2. Read the instructions as they may contain some important information on configuration
 3. Check and customize the input variables
 
-![recipe_yml](https://user-images.githubusercontent.com/5689177/150491534-fdde2ba1-aa3a-4f6f-9895-6cd8200bd6f1.gif)
+![workflow_recepies_yml](https://github.com/user-attachments/assets/7ad5f751-62f4-4520-b4c9-df1c544d4699)
 
 ## Please Share your Feedback
 
