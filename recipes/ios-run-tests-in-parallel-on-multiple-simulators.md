@@ -11,7 +11,7 @@ The example Pipeline config showcases how to run all the test cases of the proje
 
     **Note**: `xcode-build-for-test` Step compresses the built test bundle and moves the generated zip to the `$BITRISE_DEPLOY_DIR`, that directory’s content is deployed to the Workflow artifacts by default via the `deploy-to-bitrise-io` Step.
 
-1. Run tests: Three Workflows are exsted in parallel: `run_tests_on_iPhone`, `run_tests_on_iPad`, and `run_tests_on_iPod`. All of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the previous Stage built test bundle. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
+1. Run tests: Three Workflows are exsted in parallel: `run_tests_on_iPhone`, `run_tests_on_iPad`, and `run_tests_on_iPod`. All of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the test bundle built by the previous workflow. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-run-tests-in-parallel-on-multiple-simulators.png)
 

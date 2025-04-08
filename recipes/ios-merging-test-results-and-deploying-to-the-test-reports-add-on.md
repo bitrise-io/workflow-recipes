@@ -6,12 +6,12 @@ Test Reports add-on is tied to Bitrise builds. To make all the test reports gene
 
 This example uses the [sample-swift-project-with-parallel-ui-test](https://github.com/bitrise-io/sample-swift-project-with-parallel-ui-test) iOS Open Source sample app and extends the ‘Run iOS test groups in parallel’ example Pipeline config with merging and deploying test results.
 
-`run_ui_tests` and `run_unit_tests` Workflows are extended with a `deploy-to-bitrise-io` Step to make the generated test results available for the next Stage.
+`run_ui_tests` and `run_unit_tests` Workflows are extended with a `deploy-to-bitrise-io` Step to make the generated test results available for the following workflows in the graph.
 
 `build_and_run_tests` Pipeline is extended with a new workflow: `deploy_test_results`.
 
 This Workflow does the following:
-1. `pull-intermediate-files` Step downloads the previous stage (`run_tests`) generated test results.
+1. `pull-intermediate-files` Step downloads test results generated in the previous workflow (`run_tests`).
 1. `script` Step moves each test result into a new test run directory within the Test Report add-on deploy dir and creates the related `test-info.json` file.
 1. `deploy-to-bitrise-io` Step deploys the merged test results.
 
