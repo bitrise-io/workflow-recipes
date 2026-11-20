@@ -115,7 +115,7 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: .*
+        - artifact_sources: run_ui_tests,run_unit_tests
     - script@1:
         inputs:
         - content: |

@@ -13,8 +13,7 @@ The Steps that produce an `.xcresult` file, such as Xcode Test for iOS, attach t
 
 ## Instructions
 
-1. Add an [AVD Manager](https://bitrise.io/integrations/steps/avd-manager) Step and set the emulator in the **Android API Level**, **OS Tag** and **ABI** inputs.
-1. Add a [Gradle Runner](https://bitrise.io/integrations/steps/gradle-runner) Step that runs your UI tests, for example with the `connectedDebugAndroidTest` task.
+1. Start an emulator and run your UI tests with Gradle, as in [Run UI / instrumentation tests on local emulator](./android-emulator-test.md).
 1. Add an [Export test results to Test Reports](https://bitrise.io/integrations/steps/custom-test-results-export) Step (version 1.3.0 or newer) with the following inputs. The Step runs even if the tests failed.
     - Test result base path: a folder that contains both the JUnit XML results and the attachments, for example `$BITRISE_SOURCE_DIR/app/build/outputs`. The Step looks for attachments only under this folder.
     - Test result search pattern: `*/androidTest-results/*.xml`, so that only the JUnit XML results match.

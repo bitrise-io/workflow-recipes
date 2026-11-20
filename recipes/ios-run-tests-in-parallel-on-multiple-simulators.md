@@ -13,8 +13,6 @@ The example Pipeline config showcases how to run all the test cases of the proje
 
 1. Run tests: Two Workflows are executed in parallel: `run_tests_on_iPhone` and `run_tests_on_iPad`. Both use the `run_tests` [Step bundle](https://docs.bitrise.io/en/bitrise-ci/workflows-and-pipelines/steps/step-bundles) with a different `destination` input. The bundle pulls the pre-built test bundle, finds the `.xctestrun` file of the `FullTests` Test Plan (its name contains the SDK version, which changes with the Xcode version of the stack), and runs the tests with the `xcode-test-without-building` Step. The `deploy-to-bitrise-io` Step at the end of each Workflow makes its test results available on the **Tests** tab of the build page.
 
-![A screenshot of the example Pipeline in Bitrise's web UI](./ios-run-tests-in-parallel-on-multiple-simulators.png)
-
 ## Instructions
 
 1. Visit the [Create New App page](https://app.bitrise.io/apps/add) to create a new App.
@@ -59,7 +57,7 @@ pipelines:
 step_bundles:
   run_tests:
     inputs:
-    - destination: platform=iOS Simulator,name=Bitrise iOS default,OS=latest
+    - destination: ""
     steps:
     - pull-intermediate-files@1:
         inputs:
@@ -89,7 +87,9 @@ workflows:
 
   run_tests_on_iPhone:
     steps:
-    - bundle::run_tests: {}
+    - bundle::run_tests:
+        inputs:
+        - destination: platform=iOS Simulator,name=Bitrise iOS default,OS=latest
     - deploy-to-bitrise-io@2: {}
 
   run_tests_on_iPad:

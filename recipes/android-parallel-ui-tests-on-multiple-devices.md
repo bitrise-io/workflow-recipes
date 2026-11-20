@@ -4,12 +4,7 @@
 
 Running the UI or instrumented tests of a single module on different emulated devices, in parallel Workflows utilizing Pipelines.
 
-The Pipeline runs three Workflows in parallel: `ui_test_on_phone`, `ui_test_on_tablet` and `ui_test_on_foldable`. They use the `run_ui_tests` [Step bundle](https://docs.bitrise.io/en/bitrise-ci/workflows-and-pipelines/steps/step-bundles) with a different `emulator_profile` input. The bundle:
-
-1. Starts an emulator with the given device profile and waits for it to boot using the `avd-manager` Step.
-1. Runs the UI tests of the given module and variant with Gradle using the `gradle-runner` Step.
-1. Collects the JUnit XML results using the `custom-test-results-export` Step, named after the device profile.
-1. Runs the `deploy-to-bitrise-io` Step, which makes the test results available on the **Tests** tab of the build page.
+The Pipeline runs three Workflows in parallel: `ui_test_on_phone`, `ui_test_on_tablet` and `ui_test_on_foldable`. They use the `run_ui_tests` [Step bundle](https://docs.bitrise.io/en/bitrise-ci/workflows-and-pipelines/steps/step-bundles) with a different `emulator_profile` input. The bundle starts an emulator with the given device profile, runs the UI tests with Gradle, and deploys the results, named after the device profile, to the **Tests** tab of the build page.
 
 To split the tests of one device into shards instead, see [UI tests in parallel shards](./android-parallel-ui-test-shards.md).
 
@@ -57,7 +52,7 @@ pipelines:
 step_bundles:
   run_ui_tests:
     inputs:
-    - emulator_profile: pixel_5
+    - emulator_profile: ""
     steps:
     - git-clone@8: {}
     - avd-manager@2:
@@ -80,7 +75,9 @@ step_bundles:
 workflows:
   ui_test_on_phone:
     steps:
-    - bundle::run_ui_tests: {}
+    - bundle::run_ui_tests:
+        inputs:
+        - emulator_profile: pixel_5
 
   ui_test_on_tablet:
     steps:

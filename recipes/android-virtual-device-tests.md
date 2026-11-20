@@ -13,7 +13,7 @@ Run UI / instrumentation (for example, Espresso) or robo/gameloop tests on virtu
 2. Add a [Virtual Device Testing for Android](https://bitrise.io/integrations/steps/virtual-device-testing-for-android) Step. Set the input variables:
     - **Test type**: `instrumentation` (or `robo` or `gameloop`)
     - (Optional) **Test devices** (default: `MediumPhone.arm,33,en,portrait`)
-    - (Optional) **Number of times a test execution is reattempted**: reruns the whole test suite if a test fails. A test that passes on a rerun is marked as flaky.
+    - (Optional) **Number of times a test execution is reattempted**: reruns the whole test suite if a test fails. A test that passes on a rerun is marked as flaky: see [Detect and quarantine flaky tests](./flaky-tests.md).
     - (Optional) **Download files**: set it to `true` to download the test outputs. Flaky tests are only listed in `$BITRISE_FLAKY_TEST_CASES` if this is enabled.
 3. Add a [Deploy to Bitrise.io](https://bitrise.io/integrations/steps/deploy-to-bitrise-io) Step that makes the test results available on the **Tests** tab.
 

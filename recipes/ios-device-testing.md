@@ -14,7 +14,7 @@ Run unit or UI tests on a physical device. Our device testing solution is based 
 1. Add an [Xcode Build for testing for iOS](https://bitrise.io/integrations/steps/xcode-build-for-test) Step.
     - Set up code signing for the Step.
 2. Add an [iOS Device Testing](https://bitrise.io/integrations/steps/virtual-device-testing-for-ios) Step. Optional inputs:
-    - **Number of times a test execution is reattempted**: reruns the whole test suite if a test fails. A test that passes on a rerun is marked as flaky.
+    - **Number of times a test execution is reattempted**: reruns the whole test suite if a test fails. A test that passes on a rerun is marked as flaky: see [Detect and quarantine flaky tests](./flaky-tests.md).
     - **Download files**: set it to `true` to download the test outputs. Flaky tests are only listed in `$BITRISE_FLAKY_TEST_CASES` if this is enabled.
 3. Add a [Deploy to Bitrise.io](https://bitrise.io/integrations/steps/deploy-to-bitrise-io) Step that makes the test results available on the **Tests** tab.
 
