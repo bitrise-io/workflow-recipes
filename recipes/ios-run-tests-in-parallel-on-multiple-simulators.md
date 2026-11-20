@@ -11,7 +11,7 @@ The example Pipeline config showcases how to run all the test cases of the proje
 
     **Note**: `xcode-build-for-test` Step compresses the built test bundle and moves the generated zip to the `$BITRISE_DEPLOY_DIR`, that directory’s content is deployed to the Workflow artifacts by default via the `deploy-to-bitrise-io` Step.
 
-1. Run tests: Three Workflows are exsted in parallel: `run_tests_on_iPhone`, `run_tests_on_iPad`, and `run_tests_on_iPod`. All of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the test bundle built by the previous workflow. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
+1. Run tests: Two Workflows are executed in parallel: `run_tests_on_iPhone` and `run_tests_on_iPad`. Both use the `run_tests` [Step bundle](https://docs.bitrise.io/en/bitrise-ci/workflows-and-pipelines/steps/step-bundles) with a different `destination` input. The bundle pulls the pre-built test bundle, finds the `.xctestrun` file of the `FullTests` Test Plan (its name contains the SDK version, which changes with the Xcode version of the stack), and runs the tests with the `xcode-test-without-building` Step. The `deploy-to-bitrise-io` Step at the end of each Workflow makes its test results available on the **Tests** tab of the build page.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-run-tests-in-parallel-on-multiple-simulators.png)
 
@@ -33,7 +33,7 @@ The example Pipeline config showcases how to run all the test cases of the proje
 
 ```yaml
 ---
-format_version: '17'
+format_version: '26'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
@@ -44,19 +44,37 @@ app:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-16.0.x
+    stack: osx-xcode-latest-stable
     machine_type_id: g2.mac.medium
 
 pipelines:
   build_and_run_tests:
     workflows:
       xcode_build_for_test: {}
-      run_tests_on_iPhone: 
+      run_tests_on_iPhone:
         depends_on: [xcode_build_for_test]
-      run_tests_on_iPad: 
+      run_tests_on_iPad:
         depends_on: [xcode_build_for_test]
-      run_tests_on_iPod: 
-        depends_on: [xcode_build_for_test]
+
+step_bundles:
+  run_tests:
+    inputs:
+    - destination: platform=iOS Simulator,name=Bitrise iOS default,OS=latest
+    steps:
+    - pull-intermediate-files@1:
+        inputs:
+        - artifact_sources: xcode_build_for_test
+    - script@1:
+        title: Find the xctestrun file
+        inputs:
+        - content: |-
+            set -eo pipefail
+            xctestrun=$(ls "$BITRISE_TEST_BUNDLE_PATH"/BullsEye_FullTests_*.xctestrun)
+            envman add --key XCTESTRUN_PATH --value "$xctestrun"
+    - xcode-test-without-building@1:
+        inputs:
+        - xctestrun: $XCTESTRUN_PATH
+        - destination: $destination
 
 workflows:
   xcode_build_for_test:
@@ -70,35 +88,14 @@ workflows:
         - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
 
   run_tests_on_iPhone:
-    before_run:
-    - _pull_test_bundle
     steps:
-    - xcode-test-without-building@0:
-        inputs:
-        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_FullTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
-        - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
+    - bundle::run_tests: {}
+    - deploy-to-bitrise-io@2: {}
 
   run_tests_on_iPad:
-    before_run:
-    - _pull_test_bundle
     steps:
-    - xcode-test-without-building@0:
+    - bundle::run_tests:
         inputs:
-        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_FullTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
-        - destination: platform=iOS Simulator,name=iPad (9th generation)
-
-  run_tests_on_iPod:
-    before_run:
-    - _pull_test_bundle
-    steps:
-    - xcode-test-without-building@0:
-        inputs:
-        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_FullTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
-        - destination: platform=iOS Simulator,name=iPod touch (7th generation)
-
-  _pull_test_bundle:
-    steps:
-    - pull-intermediate-files@1:
-        inputs:
-        - artifact_sources: xcode_build_for_test
+        - destination: platform=iOS Simulator,name=iPad (A16),OS=latest
+    - deploy-to-bitrise-io@2: {}
 ```

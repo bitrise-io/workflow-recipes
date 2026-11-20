@@ -1,15 +1,21 @@
-# (Android) Run UI tests in parallel on multiple devices or shards
+# (Android) Run UI tests in parallel on multiple devices
 
 ## Description
 
-Running the UI or instrumented tests of a single module in parallel Workflows utilizing Pipelines. You can run the tests in parallel by shards or by devices.
+Running the UI or instrumented tests of a single module on different emulated devices, in parallel Workflows utilizing Pipelines.
 
-The Pipeline's four Workflows can be split into two logical groups:
+The Pipeline runs three Workflows in parallel: `ui_test_on_phone`, `ui_test_on_tablet` and `ui_test_on_foldable`. They use the `run_ui_tests` [Step bundle](https://docs.bitrise.io/en/bitrise-ci/workflows-and-pipelines/steps/step-bundles) with a different `emulator_profile` input. The bundle:
 
-1. Build tests: First a single Workflow is executed — named `build_for_ui_testing` — that runs the `android-build-for-ui-testing` Step to build APKs for use in testing, and runs the `deploy-to-bitrise-io` Step to save those APKs for use in the later Workflows. Running this Workflow separately from the actual testing allows for each test Workflow to use these pre-built APKs rather than having to rebuild them for each test.
-1. Run tests: Then three UI test Workflows are executed in parallel — `ui_test_on_phone`, `ui_test_on_tablet`, `ui_test_on_foldable` — which use the `android-instrumented-test` Step to run the UI tests on the APKs built in the previous Worflow on each specific device type.
+1. Starts an emulator with the given device profile and waits for it to boot using the `avd-manager` Step.
+1. Runs the UI tests of the given module and variant with Gradle using the `gradle-runner` Step.
+1. Collects the JUnit XML results using the `custom-test-results-export` Step, named after the device profile.
+1. Runs the `deploy-to-bitrise-io` Step, which makes the test results available on the **Tests** tab of the build page.
 
-![A screenshot of the example Pipeline in Bitrise's web UI](./android-parallel-ui-tests-on-multiple-devices.png)
+To split the tests of one device into shards instead, see [UI tests in parallel shards](./android-parallel-ui-test-shards.md).
+
+## Prerequisites
+
+1. A Linux stack: Android emulators don't run on macOS stacks.
 
 ## Instructions
 
@@ -22,83 +28,69 @@ To test this configuration in a new Bitrise example project, do the following:
 1. Wait for the project scanner to complete.
 1. Enter `app` as the specified module.
 1. Enter `debug` as the specified variant.
-1. Continue through the prompts as normal — no changes are needed.
-1. Open the new Bitrise project’s Workflow Editor.
+1. Continue through the prompts as normal, no changes are needed.
+1. Open the new Bitrise project's Workflow Editor.
 1. Go to the **bitrise.yml** tab, and replace the existing yaml contents with the contents of the example `bitrise.yml` below.
 1. Click the **Start/Schedule a Build** button, and select the `ui_test_on_multiple_devices` option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
+
+To list the device profiles you can use, run `avdmanager list device` and use the `id` values.
 
 ## bitrise.yml
 
 ```yaml
-format_version: "17"
+format_version: "26"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 
 meta:
   bitrise.io:
-    stack: linux-docker-android-22.04
+    stack: ubuntu-latest-stable
     machine_type_id: standard
 
 pipelines:
   ui_test_on_multiple_devices:
     workflows:
-      build_for_ui_testing: {}      
-      ui_test_on_phone:
-        depends_on: [build_for_ui_testing]
-      ui_test_on_tablet:
-        depends_on: [build_for_ui_testing]
-      ui_test_on_foldable:
-        depends_on: [build_for_ui_testing]
+      ui_test_on_phone: {}
+      ui_test_on_tablet: {}
+      ui_test_on_foldable: {}
 
-workflows:
-  build_for_ui_testing:
+step_bundles:
+  run_ui_tests:
+    inputs:
+    - emulator_profile: pixel_5
     steps:
     - git-clone@8: {}
-    - android-build-for-ui-testing@0:
+    - avd-manager@2:
         inputs:
-        - module: app
-        - variant: debug
-    - deploy-to-bitrise-io@2:
+        - profile: $emulator_profile
+        - api_level: 34
+        - tag: google_apis
+        - abi: x86_64
+    - gradle-runner@6:
         inputs:
-        - pipeline_intermediate_files: |-
-            $BITRISE_APK_PATH:BITRISE_APK_PATH
-            $BITRISE_TEST_APK_PATH:BITRISE_TEST_APK_PATH
+        - gradlew_path: ./gradlew
+        - gradle_task: :app:connectedDebugAndroidTest
+    - custom-test-results-export@2:
+        inputs:
+        - search_pattern: "*.xml"
+        - base_path: $BITRISE_SOURCE_DIR/app/build/outputs/androidTest-results
+        - test_name: UI tests on $emulator_profile
+    - deploy-to-bitrise-io@2: {}
 
+workflows:
   ui_test_on_phone:
-    envs:
-    - EMULATOR_PROFILE: pixel_5
-    before_run:
-    - _pull_apks
-    after_run:
-    - _run_tests
+    steps:
+    - bundle::run_ui_tests: {}
 
   ui_test_on_tablet:
-    envs:
-    - EMULATOR_PROFILE: 10.1in WXGA (Tablet)
-    before_run:
-    - _pull_apks
-    after_run:
-    - _run_tests
+    steps:
+    - bundle::run_ui_tests:
+        inputs:
+        - emulator_profile: 10.1in WXGA (Tablet)
 
   ui_test_on_foldable:
-    envs:
-    - EMULATOR_PROFILE: 8in Foldable
-    before_run:
-    - _pull_apks
-    after_run:
-    - _run_tests
-
-  _pull_apks:
     steps:
-    - pull-intermediate-files@1:
+    - bundle::run_ui_tests:
         inputs:
-        - artifact_sources: build_for_ui_testing
-
-  _run_tests:
-    steps:
-    - avd-manager@1:
-        inputs:
-        - profile: $EMULATOR_PROFILE
-    - wait-for-android-emulator@1: {}
-    - android-instrumented-test@0: {}
+        - emulator_profile: 8in Foldable
 ```
