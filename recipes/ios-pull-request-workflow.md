@@ -14,13 +14,13 @@ Example Workflow for iOS Pull Request validation. The Workflow contains:
 
 ```yaml
 ---
-format_version: '17'
+format_version: '26'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
 meta:
   bitrise.io:
-    stack: osx-xcode-16.0.x
+    stack: osx-xcode-latest-stable
     machine_type_id: g2.mac.medium
 
 workflows:
@@ -36,7 +36,7 @@ workflows:
         inputs:
         - carthage_options: "--use-xcframeworks --platform iOS"
     - restore-spm-cache@2: {}
-    - xcode-test@5:
+    - xcode-test@6:
         inputs:
         - log_formatter: xcodebuild
         - xcodebuild_options: "-enableCodeCoverage YES"

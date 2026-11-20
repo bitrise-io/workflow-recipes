@@ -22,13 +22,13 @@ Use the yaml below and change the following env var values to match your project
 
 ```yaml
 ---
-format_version: '17'
+format_version: '26'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 
 meta:
   bitrise.io:
-    stack: linux-docker-android-22.04
+    stack: ubuntu-latest-stable
     machine_type_id: standard
 
 workflows:
@@ -42,7 +42,7 @@ workflows:
         inputs:
         - project_location: $PROJECT_LOCATION
         - variant: $VARIANT
-    - android-build-for-ui-testing@0:
+    - android-build-for-ui-testing@1:
         inputs:
         - variant: $VARIANT
         - module: $MODULE

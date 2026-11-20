@@ -7,7 +7,9 @@ Running unit tests and UI tests in parallel utilizing Pipelines.
 This Pipeline contains two Workflows which are executed in parallel:
 
 1. `unit_tests`: This Workflow simply runs the unit tests of the given module and variant using the `android-unit-test` Step.
-1. `ui_tests`: This Workflow builds the given module and variant using the `android-build-for-ui-testing` Step, spins up an emulator using the `avd-manager` Step, waits for the emulator to boot using the `wait-for-android-emulator` Step, and runs the UI tests using the `android-instrumented-test` Step.
+1. `ui_tests`: This Workflow spins up an emulator and waits for it to boot using the `avd-manager` Step, runs the UI tests of the given module and variant with Gradle using the `gradle-runner` Step, and collects the JUnit XML results using the `custom-test-results-export` Step.
+
+Both Workflows end with the `deploy-to-bitrise-io` Step, which makes their test results available on the **Tests** tab of the build page.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./android-parallel-unit-and-ui-tests.png)
 
@@ -30,13 +32,13 @@ To test this configuration in a new Bitrise example project, do the following:
 ## bitrise.yml
 
 ```yaml
-format_version: "17"
+format_version: "26"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 
 meta:
   bitrise.io:
-    stack: linux-docker-android-22.04
+    stack: ubuntu-latest-stable
     machine_type_id: standard
 
 pipelines:
@@ -53,15 +55,24 @@ workflows:
         inputs:
         - module: app
         - variant: debug
+    - deploy-to-bitrise-io@2: {}
 
   ui_tests:
     steps:
     - git-clone@8: {}
-    - android-build-for-ui-testing@0:
+    - avd-manager@2:
         inputs:
-        - module: app
-        - variant: debug
-    - avd-manager@1: {}
-    - wait-for-android-emulator@1: {}
-    - android-instrumented-test@0: {}
+        - api_level: 34
+        - tag: google_apis
+        - abi: x86_64
+    - gradle-runner@6:
+        inputs:
+        - gradlew_path: ./gradlew
+        - gradle_task: connectedDebugAndroidTest
+    - custom-test-results-export@2:
+        inputs:
+        - search_pattern: "*.xml"
+        - base_path: $BITRISE_SOURCE_DIR/app/build/outputs/androidTest-results
+        - test_name: UI tests
+    - deploy-to-bitrise-io@2: {}
 ```

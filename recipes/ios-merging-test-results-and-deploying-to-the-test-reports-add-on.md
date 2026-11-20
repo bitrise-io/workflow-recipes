@@ -1,18 +1,18 @@
-# (iOS) Merging test results and deploying to the Test Reports add-on
+# (iOS) Merging test results from parallel Workflows into one build
 
 ## Description
 
-Test Reports add-on is tied to Bitrise builds. To make all the test reports generated in different builds appear on a single page in the add-on, the reports need to be merged and deployed in an additional build.
+Each Workflow of a Pipeline runs in its own build and deploys its test results to the **Tests** tab of that build. To collect all the test results generated in different builds in a single build, the results need to be merged and deployed in an additional build.
 
-This example uses the [sample-swift-project-with-parallel-ui-test](https://github.com/bitrise-io/sample-swift-project-with-parallel-ui-test) iOS Open Source sample app and extends the ‘Run iOS test groups in parallel’ example Pipeline config with merging and deploying test results.
+This example uses the [sample-swift-project-with-parallel-ui-test](https://github.com/bitrise-io/sample-swift-project-with-parallel-ui-test) iOS Open Source sample app and extends the [Run iOS test groups in parallel](./ios-run-test-groups-in-parallel.md) example Pipeline config with merging and deploying test results.
 
-`run_ui_tests` and `run_unit_tests` Workflows are extended with a `deploy-to-bitrise-io` Step to make the generated test results available for the following workflows in the graph.
+`run_ui_tests` and `run_unit_tests` Workflows run their Test Plan with the `run_tests` Step bundle, and share their `.xcresult` bundles with the following workflows in the graph through the `deploy-to-bitrise-io` Step.
 
-`build_and_run_tests` Pipeline is extended with a new workflow: `deploy_test_results`.
+`build_and_run_tests` Pipeline is extended with a new workflow: `merge_and_deploy_test_results`.
 
 This Workflow does the following:
-1. `pull-intermediate-files` Step downloads test results generated in the previous workflow (`run_tests`).
-1. `script` Step moves each test result into a new test run directory within the Test Report add-on deploy dir and creates the related `test-info.json` file.
+1. `pull-intermediate-files` Step downloads the test results generated in the previous workflows (`run_ui_tests` and `run_unit_tests`).
+1. `script` Step moves each test result into a new test run directory within `$BITRISE_TEST_RESULT_DIR` and creates the related `test-info.json` file.
 1. `deploy-to-bitrise-io` Step deploys the merged test results.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-merging-test-results-and-deploying-to-the-test-reports-add-on.png)
@@ -29,15 +29,15 @@ This Workflow does the following:
 1. Open the new Bitrise project’s Workflow Editor.
 1. Go to the **bitrise.yml** tab and replace the existing `bitrise.yml` with the contents of the example bitrise.yml below.
 1. Click the **Start/Schedule a Build** button, and select the `build_and_run_tests` Pipeline option in the **Workflow, Pipeline** dropdown menu at the bottom of the popup.
-1. Open the Pipeline’s build page.
-1. Select the `deploy_test_results` build.
-1. Click on **Details & Add-ons** on the build details page and select the Test Reports add-on to view the merged test reports.
+1. Open the Pipeline's build page.
+1. Select the `merge_and_deploy_test_results` build.
+1. Open the **Tests** tab to view the merged test results.
 
 ## bitrise.yml
 
 ```yaml
 ---
-format_version: '17'
+format_version: '26'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
@@ -48,7 +48,7 @@ app:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-16.0.x
+    stack: osx-xcode-latest-stable
     machine_type_id: g2.mac.medium
 
 pipelines:
@@ -57,10 +57,30 @@ pipelines:
       xcode_build_for_test: {}
       run_ui_tests:
         depends_on: [xcode_build_for_test]
-      run_unit_tests: 
+      run_unit_tests:
         depends_on: [xcode_build_for_test]
-      merge_and_deploy_test_results: 
+      merge_and_deploy_test_results:
         depends_on: [run_ui_tests, run_unit_tests]
+
+step_bundles:
+  run_tests:
+    inputs:
+    - test_plan: ""
+    steps:
+    - pull-intermediate-files@1:
+        inputs:
+        - artifact_sources: xcode_build_for_test
+    - script@1:
+        title: Find the xctestrun file
+        inputs:
+        - content: |-
+            set -eo pipefail
+            xctestrun=$(ls "$BITRISE_TEST_BUNDLE_PATH"/BullsEye_"$test_plan"_*.xctestrun)
+            envman add --key XCTESTRUN_PATH --value "$xctestrun"
+    - xcode-test-without-building@1:
+        inputs:
+        - xctestrun: $XCTESTRUN_PATH
+        - destination: platform=iOS Simulator,name=Bitrise iOS default,OS=latest
 
 workflows:
   xcode_build_for_test:
@@ -74,25 +94,19 @@ workflows:
         - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
 
   run_ui_tests:
-    before_run:
-    - _pull_test_bundle
     steps:
-    - xcode-test-without-building@0:
+    - bundle::run_tests:
         inputs:
-        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UITests_iphonesimulator15.2-arm64-x86_64.xctestrun"
-        - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
+        - test_plan: UITests
     - deploy-to-bitrise-io@2:
         inputs:
         - pipeline_intermediate_files: "$BITRISE_XCRESULT_PATH:BITRISE_UI_TEST_XCRESULT_PATH"
 
   run_unit_tests:
-    before_run:
-    - _pull_test_bundle
     steps:
-    - xcode-test-without-building@0:
+    - bundle::run_tests:
         inputs:
-        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UnitTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
-        - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
+        - test_plan: UnitTests
     - deploy-to-bitrise-io@2:
         inputs:
         - pipeline_intermediate_files: "$BITRISE_XCRESULT_PATH:BITRISE_UNIT_TEST_XCRESULT_PATH"
@@ -101,7 +115,7 @@ workflows:
     steps:
     - pull-intermediate-files@1:
         inputs:
-        - artifact_sources: .*
+        - artifact_sources: run_ui_tests,run_unit_tests
     - script@1:
         inputs:
         - content: |
@@ -125,10 +139,4 @@ workflows:
                 echo "{ \"test-name\": \"${test_name}\" }" > "$test_info"
               done
     - deploy-to-bitrise-io@2: {}
-
-  _pull_test_bundle:
-    steps:
-    - pull-intermediate-files@1:
-        inputs:
-        - artifact_sources: xcode_build_for_test
 ```

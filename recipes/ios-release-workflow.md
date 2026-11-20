@@ -12,13 +12,13 @@ Example Workflow for uploading a release draft of an iOS app to the App Store. T
 
 ```yaml
 ---
-format_version: '17'
+format_version: '26'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
 meta:
   bitrise.io:
-    stack: osx-xcode-16.0.x
+    stack: osx-xcode-latest-stable
     machine_type_id: g2.mac.medium
 
 workflows:
