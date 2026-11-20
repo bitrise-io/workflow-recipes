@@ -55,6 +55,9 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 * [(Android) Run UI / Instrumentation Tests on Local Emulator](recipes/android-emulator-test.md)
 * [(React Native) Run Tests](recipes/rn-tests.md)
 * [(Flutter) Run Tests](recipes/flutter-test.md)
+* [(Android, iOS) Run Maestro UI Tests](recipes/maestro-test.md)
+* [Detect and Quarantine Flaky Tests](recipes/flaky-tests.md)
+* [(Android) Show Screenshots of UI Tests on the Tests Tab](recipes/android-test-attachments.md)
 
 ### Building
 
@@ -129,10 +132,12 @@ You can also simply copy-paste the snippet to your `bitrise.yml` file directly. 
 
 * [(iOS) Run tests in parallel on multiple simulators](./recipes/ios-run-tests-in-parallel-on-multiple-simulators.md)
 * [(iOS) Run test groups in parallel](./recipes/ios-run-test-groups-in-parallel.md)
-* [(iOS) Merging test results and deploying to the Test Reports add-on](./recipes/ios-merging-test-results-and-deploying-to-the-test-reports-add-on.md)
+* [(iOS) Merging test results from parallel Workflows into one build](./recipes/ios-merging-test-results-and-deploying-to-the-test-reports-add-on.md)
+* [(iOS) Run tests in parallel shards](./recipes/ios-run-test-shards-in-parallel.md)
 
 ### Android
 
 * [(Android) Parallel testing of unit test shards by module](recipes/android-parallel-testing-unit-test-shards.md)
 * [(Android) Parallel UI tests on multiple devices](recipes/android-parallel-ui-tests-on-multiple-devices.md)
 * [(Android) Parallel unit and UI tests](recipes/android-parallel-unit-and-ui-tests.md)
+* [(Android) UI tests in parallel shards](recipes/android-parallel-ui-test-shards.md)
