@@ -12,7 +12,7 @@ Run unit tests (for example, `testDebugUnitTest`) and view the results on the **
     - **Module**: Specify one or leave it blank to run tests in all of the modules.
 2. Add a [Deploy to Bitrise.io](https://bitrise.io/integrations/steps/deploy-to-bitrise-io) Step. It makes the test results available on the **Tests** tab, and it runs even if the tests failed.
 
-To rerun failed tests and mark the ones that pass on a rerun as flaky, apply the [Gradle Test Retry plugin](https://github.com/gradle/test-retry-gradle-plugin) in your project. See [Detecting and quarantining flaky tests](/recipes/flaky-tests.md).
+To rerun failed tests and mark the ones that pass on a rerun as flaky, apply the [Gradle Test Retry plugin](https://github.com/gradle/test-retry-gradle-plugin) in your project and set `retry.maxRetries` on the unit test tasks, for example to `2`. The plugin doesn't rerun anything until you set it. Leave `retry.failOnPassedAfterRetry` at its default `false`, so that a test that passes on a rerun doesn't fail the build. See [Detect and quarantine flaky tests](./flaky-tests.md).
 
 ## bitrise.yml
 
