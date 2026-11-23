@@ -10,7 +10,7 @@ The example Pipeline config showcases how to run different test groups in parall
 
 `build_and_run_tests` pipeline's Workflows can be split into two logical groups:
 1. Build tests: The `xcode_build_for_test` Workflow git clones the sample project and runs the `xcode-build-for-test` Step to build the target and associated tests. The built test bundle is shared with the following Workflows via the `deploy-to-bitrise-io` Step.
-1. Run tests: Then two Workflows run in parallel: `run_ui_tests` and `run_unit_tests`. Both of these Workflows use the new `xcode-test-without-building` Step, which executes the tests based on the previous Workflow built test bundle. The pre-built test bundle is pulled by the `_pull_test_bundle` utility Workflow.
+1. Run tests: Then two Workflows run in parallel: `run_ui_tests` and `run_unit_tests`. Both use the `run_tests` [Step bundle](https://docs.bitrise.io/en/bitrise-ci/workflows-and-pipelines/steps/step-bundles) with a different `test_plan` input. The bundle pulls the pre-built test bundle, finds the `.xctestrun` file of the given Test Plan (its name contains the SDK version, which changes with the Xcode version of the stack), and runs the tests with the `xcode-test-without-building` Step. The `deploy-to-bitrise-io` Step at the end of each Workflow makes its test results available on the **Tests** tab of the build page.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./ios-run-test-groups-in-parallel.png)
 
@@ -32,7 +32,7 @@ The example Pipeline config showcases how to run different test groups in parall
 
 ```yaml
 ---
-format_version: '17'
+format_version: '26'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 
@@ -43,7 +43,7 @@ app:
 
 meta:
   bitrise.io:
-    stack: osx-xcode-16.0.x
+    stack: osx-xcode-latest-stable
     machine_type_id: g2.mac.medium
 
 pipelines:
@@ -54,6 +54,26 @@ pipelines:
         depends_on: [xcode_build_for_test]
       run_unit_tests:
         depends_on: [xcode_build_for_test]
+
+step_bundles:
+  run_tests:
+    inputs:
+    - test_plan: ""
+    steps:
+    - pull-intermediate-files@1:
+        inputs:
+        - artifact_sources: xcode_build_for_test
+    - script@1:
+        title: Find the xctestrun file
+        inputs:
+        - content: |-
+            set -eo pipefail
+            xctestrun=$(ls "$BITRISE_TEST_BUNDLE_PATH"/BullsEye_"$test_plan"_*.xctestrun)
+            envman add --key XCTESTRUN_PATH --value "$xctestrun"
+    - xcode-test-without-building@1:
+        inputs:
+        - xctestrun: $XCTESTRUN_PATH
+        - destination: platform=iOS Simulator,name=Bitrise iOS default,OS=latest
 
 workflows:
   xcode_build_for_test:
@@ -67,26 +87,16 @@ workflows:
         - pipeline_intermediate_files: "$BITRISE_TEST_BUNDLE_PATH:BITRISE_TEST_BUNDLE_PATH"
 
   run_ui_tests:
-    before_run:
-    - _pull_test_bundle
     steps:
-    - xcode-test-without-building@0:
+    - bundle::run_tests:
         inputs:
-        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UITests_iphonesimulator15.2-arm64-x86_64.xctestrun"
-        - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
+        - test_plan: UITests
+    - deploy-to-bitrise-io@2: {}
 
   run_unit_tests:
-    before_run:
-    - _pull_test_bundle
     steps:
-    - xcode-test-without-building@0:
+    - bundle::run_tests:
         inputs:
-        - xctestrun: "$BITRISE_TEST_BUNDLE_PATH/BullsEye_UnitTests_iphonesimulator15.2-arm64-x86_64.xctestrun"
-        - destination: platform=iOS Simulator,name=iPhone 12 Pro Max
-
-  _pull_test_bundle:
-    steps:
-    - pull-intermediate-files@1:
-        inputs:
-        - artifact_sources: xcode_build_for_test
+        - test_plan: UnitTests
+    - deploy-to-bitrise-io@2: {}
 ```

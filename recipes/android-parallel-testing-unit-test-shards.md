@@ -6,8 +6,10 @@ Running the unit tests of a modularized app in parallel Workflows utilizing Pipe
 
 This Pipeline contains two Workflows which are executed in parallel:
 
-1. `unit_test_app`: This Workflow runs the unit tests of the `app` module using the `android-unit-test` Step.
-1. `unit_test_library`: This Workflow runs the unit tests of the `lib-example` module using the `android-unit-test` Step.
+1. `unit_test_app`: This Workflow runs the unit tests of the `app` module.
+1. `unit_test_library`: This Workflow runs the unit tests of the `lib-example` module.
+
+Both Workflows use the `unit_test` [Step bundle](https://docs.bitrise.io/en/bitrise-ci/workflows-and-pipelines/steps/step-bundles) with a different `module` input. The bundle clones the repository, runs the unit tests with the `android-unit-test` Step, and ends with the `deploy-to-bitrise-io` Step, which makes the test results available on the **Tests** tab of the build page.
 
 ![A screenshot of the example Pipeline in Bitrise's web UI](./android-parallel-testing-unit-test-shards.png)
 
@@ -30,13 +32,13 @@ To test this configuration in a new Bitrise example project, do the following:
 ## bitrise.yml
 
 ```yaml
-format_version: "17"
+format_version: "26"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 
 meta:
   bitrise.io:
-    stack: linux-docker-android-22.04
+    stack: ubuntu-latest-stable
     machine_type_id: standard
 
 pipelines:
@@ -45,25 +47,30 @@ pipelines:
       unit_test_app: {}
       unit_test_library: {}
 
-workflows:
-  unit_test_app:
-    envs:
-    - MODULE: app
-    - VARIANT: debug
-    after_run:
-    - _test
-
-  unit_test_library:
-    envs:
-    - MODULE: lib-example
-    after_run:
-    - _test
-
-  _test:
+step_bundles:
+  unit_test:
+    inputs:
+    - module: ""
+    - variant: ""
     steps:
     - git-clone@8: {}
     - android-unit-test@1:
         inputs:
-        - module: $MODULE
-        - variant: $VARIANT
+        - module: $module
+        - variant: $variant
+    - deploy-to-bitrise-io@2: {}
+
+workflows:
+  unit_test_app:
+    steps:
+    - bundle::unit_test:
+        inputs:
+        - module: app
+        - variant: debug
+
+  unit_test_library:
+    steps:
+    - bundle::unit_test:
+        inputs:
+        - module: lib-example
 ```
