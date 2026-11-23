@@ -68,7 +68,7 @@ workflows:
     - gradle-runner@6:
         inputs:
         - gradlew_path: ./gradlew
-        - gradle_task: connectedDebugAndroidTest
+        - gradle_task: :app:connectedDebugAndroidTest
     - custom-test-results-export@2:
         inputs:
         - search_pattern: "*.xml"

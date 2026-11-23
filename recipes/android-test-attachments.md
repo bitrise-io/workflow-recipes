@@ -33,7 +33,7 @@ If an attachment doesn't show up, the Export test results to Test Reports Step l
 - gradle-runner@6:
     inputs:
     - gradlew_path: ./gradlew
-    - gradle_task: connectedDebugAndroidTest
+    - gradle_task: :app:connectedDebugAndroidTest
 - custom-test-results-export@2:
     inputs:
     - base_path: $BITRISE_SOURCE_DIR/app/build/outputs
