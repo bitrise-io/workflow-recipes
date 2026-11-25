@@ -1,0 +1,80 @@
+---
+format_version: '13'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: android
+workflows:
+  build_apk:
+    summary: Run your Android unit tests and create an APK file to install your app
+      on a device or share it with your team.
+    description: The workflow will first clone your Git repository, install Android
+      tools, set the project's version code based on the build number, run Android
+      lint and unit tests, build the project's APK file and save it.
+    steps:
+    - activate-ssh-key@4: {}
+    - git-clone@8: {}
+    - activate-build-cache-for-gradle@1: {}
+    - install-missing-android-tools@3:
+        inputs:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    - android-lint@0:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+        - variant: "$VARIANT"
+        - cache_level: none
+    - android-unit-test@1:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+        - variant: "$VARIANT"
+        - cache_level: none
+    - change-android-versioncode-and-versionname@1:
+        inputs:
+        - build_gradle_path: "$PROJECT_LOCATION/$MODULE/build.gradle"
+    - android-build@1:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+        - module: "$MODULE"
+        - variant: "$VARIANT"
+        - cache_level: none
+    - sign-apk@1:
+        run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
+    - deploy-to-bitrise-io@2: {}
+  run_tests:
+    summary: Run your Android unit tests and get the test report.
+    description: The workflow will first clone your Git repository, cache your Gradle
+      dependencies, install Android tools, run your Android unit tests and save the
+      test report.
+    steps:
+    - activate-ssh-key@4: {}
+    - git-clone@8: {}
+    - restore-gradle-cache@1: {}
+    - activate-build-cache-for-gradle@1: {}
+    - install-missing-android-tools@3:
+        inputs:
+        - gradlew_path: "$PROJECT_LOCATION/gradlew"
+    - android-unit-test@1:
+        inputs:
+        - project_location: "$PROJECT_LOCATION"
+        - variant: "$VARIANT"
+        - cache_level: none
+    - save-gradle-cache@1: {}
+    - deploy-to-bitrise-io@2: {}
+meta:
+  bitrise.io:
+    stack: linux-docker-android-20.04
+    machine_type_id: standard
+app:
+  envs:
+  - opts:
+      is_expand: false
+    PROJECT_LOCATION: "."
+  - opts:
+      is_expand: false
+    MODULE: app
+  - opts:
+      is_expand: false
+    VARIANT: playDebug
+trigger_map:
+- push_branch: release/4.0
+  workflow: run_tests
+- pull_request_source_branch: "*"
+  workflow: run_tests
